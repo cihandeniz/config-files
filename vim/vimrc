@@ -149,11 +149,11 @@ nmap <F8> :TagbarToggle<CR>
 
 " Alt-, to open ~/.vimrc
 nnoremap <silent> ≤ :tabedit ~/.vimrc<CR>
-" Alt-W to close
+" Alt-w to close
 nnoremap ∑ :close<CR>
-" Alt-Q to close all
+" Alt-q to close all
 nnoremap œ :qa<CR>
-" Alt-S to save (write)
+" Alt-s to save (write)
 nnoremap ß :w<CR>
 " Alt-l to move to right window
 nnoremap ¬ <C-W>l
