@@ -133,10 +133,12 @@ syntax on
 
 " ulti snips
 " ----------
-" Ctrl-l to jump forward
-let g:UltiSnipsJumpForwardTrigger="<c-l>"
-" Ctrl-h to jump backward
-let g:UltiSnipsJumpBackwardTrigger="<c-h>"
+" Alt-j to expand (like CMD-Down to enter)
+let g:UltiSnipsExpandTrigger="∆"
+" Alt-l to jump forward
+let g:UltiSnipsJumpForwardTrigger="¬"
+" Alt-h to jump backward
+let g:UltiSnipsJumpBackwardTrigger="˙"
 
 " key mappings
 " ------------
