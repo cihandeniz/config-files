@@ -157,24 +157,26 @@ nnoremap œ :qa<CR>
 nnoremap ß :w<CR>
 " Alt-l to move to right window
 nnoremap ¬ <C-W>l
-" Alt-l to move to right window
+" Alt-h to move to right window
 nnoremap ˙ <C-W>h
-" Alt-l to move to right window
+" Alt-j to move to right window
 nnoremap ∆ <C-W>j
-" Alt-l to move to right window
+" Alt-k to move to right window
 nnoremap ˚ <C-W>k
 " Alt-p to show yank-ring window
 nnoremap π :YRShow<CR>
+" Alt-a to select all text
+nnoremap å ggVG
 
 " Quickfix
 " --------
-" Alt-F to go to error when in quickfix window
+" Alt-Shift-f to go to error when in quickfix window
 autocmd BufReadPost quickfix nnoremap ƒ :.cc<CR>
 
 " Go
 " --
-" Alt-R to run
+" Alt-Shift-r to run
 autocmd FileType go nnoremap ® :GoRun<CR>
-" Alt-B to build
+" Alt-Shift-b to build
 autocmd FileType go nnoremap ∫ :GoBuild<CR>
 
