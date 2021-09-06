@@ -31,6 +31,8 @@ call plug#begin('~/.vim/plugged')
 
 " theme
 Plug 'morhetz/gruvbox'
+" yanks to multiple registers and allows to paste from a list
+Plug 'vim-scripts/YankRing.vim'
 " folder tree on left
 Plug 'preservim/nerdtree'
 " shows symbols according to git status in the tree
@@ -46,8 +48,6 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " highlights trailing whitespaces and trims them upon save
 Plug 'ntpeters/vim-better-whitespace'
-" yanks to multiple registers and allows to paste from a list
-Plug 'vim-scripts/YankRing.vim'
 " maps git commands to vim commandline such as :G status
 Plug 'tpope/vim-fugitive'
 " shows added and modified lines within a file according to git status
@@ -143,8 +143,8 @@ let g:UltiSnipsJumpBackwardTrigger="˙"
 " key mappings
 " ------------
 
-nnoremap <silent> <C-n> :FZF<CR>
-nmap <C-m> <Plug>(YCMFindSymbolInDocument)
+nnoremap † :FZF<CR>
+nmap ø <Plug>(YCMFindSymbolInWorkspace)
 nmap <F8> :TagbarToggle<CR>
 
 " Alt-, to open ~/.vimrc
