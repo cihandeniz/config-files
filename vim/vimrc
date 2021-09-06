@@ -133,8 +133,6 @@ syntax on
 
 " ulti snips
 " ----------
-" Alt-L to expand
-let g:UltiSnipsExpandTrigger=";"
 " Ctrl-l to jump forward
 let g:UltiSnipsJumpForwardTrigger="<c-l>"
 " Ctrl-h to jump backward
