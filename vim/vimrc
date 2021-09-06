@@ -169,10 +169,9 @@ nnoremap π :YRShow<CR>
 " Alt-a to select all text
 nnoremap å ggVG
 
-" Quickfix
+" NERDTree
 " --------
-" Alt-Shift-f to go to error when in quickfix window
-autocmd BufReadPost quickfix nnoremap ƒ :.cc<CR>
+nnoremap ƒ :NERDTreeFind<CR>
 
 " Go
 " --
