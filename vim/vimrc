@@ -1,0 +1,180 @@
+source $VIMRUNTIME/defaults.vim
+
+set incsearch
+set ignorecase smartcase
+set ruler
+set showcmd
+set tabstop=4
+set shiftwidth=4
+set smartindent
+set autoindent
+set expandtab
+set history=1000
+set wildmenu
+set splitright
+set splitbelow
+set foldcolumn=2
+set number
+
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &filetype != 'nerdtree' && &filetype != 'tagbar' && mode() != "i" | set rnu | set nonu | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &filetype != 'nerdtree' && &filetype != 'tagbar' | set nornu | set nu | endif
+augroup END
+
+augroup vimrcEx
+  au!
+  autocmd FileType text setlocal textwidth=80
+augroup END
+
+call plug#begin('~/.vim/plugged')
+
+" theme
+Plug 'morhetz/gruvbox'
+" folder tree on left
+Plug 'preservim/nerdtree'
+" shows symbols according to git status in the tree
+Plug 'Xuyuanp/nerdtree-git-plugin'
+" highlight files and folders according to their types
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+" status bar
+Plug 'vim-airline/vim-airline'
+" themes for status bar
+Plug 'vim-airline/vim-airline-themes'
+" file search pluigin
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+" highlights trailing whitespaces and trims them upon save
+Plug 'ntpeters/vim-better-whitespace'
+" yanks to multiple registers and allows to paste from a list
+Plug 'vim-scripts/YankRing.vim'
+" maps git commands to vim commandline such as :G status
+Plug 'tpope/vim-fugitive'
+" shows added and modified lines within a file according to git status
+Plug 'airblade/vim-gitgutter'
+" shows tags on the right for quick jump
+Plug 'preservim/tagbar'
+" reloads files automatically when they are changed outside vim
+Plug 'djoshea/vim-autoread'
+" go support
+Plug 'fatih/vim-go', { 'tag': '*' }
+" code autocomplete
+Plug 'ycm-core/YouCompleteMe'
+"code snippet too
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+" closes all types of quotes and brackets automatically
+Plug 'gosukiwi/vim-smartpairs'
+" enables beautiful file icons in nerd tree
+Plug 'ryanoasis/vim-devicons'
+
+call plug#end()
+
+" gruvbox
+" -------
+colorscheme gruvbox
+set bg=dark
+
+" nerd tree
+" ---------
+" Start NERDTree. If a file is specified, move the cursor to its window.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in") | wincmd p | endif
+
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+" Close the tab if NERDTree is the only window remaining in it.
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+
+" Open the existing NERDTree on each new tab.
+autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+
+let g:NERDTreeGitStatusUseNerdFonts = 2 " you should install nerdfonts by yourself. default: 0
+let g:NERDTreeWinSize = 40
+let g:NERDTreeMinimalUI = 1
+
+" air-line
+" --------
+let g:airline_theme='distinguished'
+let g:airline#extensions#tabline#enabled = 0
+let g:airline_powerline_fonts = 1
+
+" webdevicons
+" -----------
+" loading the plugin
+let g:webdevicons_enable = 1
+" adding the flags to NERDTree
+let g:webdevicons_enable_nerdtree = 1
+" whether or not to show the nerdtree brackets around flags
+let g:webdevicons_conceal_nerdtree_brackets = 1
+" arrange padding before and after icons in nerd tree
+let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
+let g:WebDevIconsNerdTreeBeforeGlyphPadding = ' '
+set encoding=UTF-8
+" after a re-source, fix syntax matching issues (concealing brackets):
+if exists('g:loaded_webdevicons')
+  call webdevicons#refresh()
+endif
+
+" better whitespace
+" -----------------
+let g:better_whitespace_enabled=1
+let g:strip_whitespace_on_save=1
+
+" vim go
+" ------
+let g:go_highlight_function_calls = 1
+syntax on
+
+" ulti snips
+" ----------
+" Alt-L to expand
+let g:UltiSnipsExpandTrigger=";"
+" Ctrl-l to jump forward
+let g:UltiSnipsJumpForwardTrigger="<c-l>"
+" Ctrl-h to jump backward
+let g:UltiSnipsJumpBackwardTrigger="<c-h>"
+
+" key mappings
+" ------------
+
+nnoremap <silent> <C-n> :FZF<CR>
+nmap <C-m> <Plug>(YCMFindSymbolInDocument)
+nmap <F8> :TagbarToggle<CR>
+
+" Alt-, to open ~/.vimrc
+nnoremap <silent> ≤ :tabedit ~/.vimrc<CR>
+" Alt-W to close
+nnoremap ∑ :close<CR>
+" Alt-Q to close all
+nnoremap œ :qa<CR>
+" Alt-S to save (write)
+nnoremap ß :w<CR>
+" Alt-l to move to right window
+nnoremap ¬ <C-W>l
+" Alt-l to move to right window
+nnoremap ˙ <C-W>h
+" Alt-l to move to right window
+nnoremap ∆ <C-W>j
+" Alt-l to move to right window
+nnoremap ˚ <C-W>k
+" Alt-p to show yank-ring window
+nnoremap π :YRShow<CR>
+
+" Quickfix
+" --------
+" Alt-F to go to error when in quickfix window
+autocmd BufReadPost quickfix nnoremap ƒ :.cc<CR>
+
+" Go
+" --
+" Alt-R to run
+autocmd FileType go nnoremap ® :GoRun<CR>
+" Alt-B to build
+autocmd FileType go nnoremap ∫ :GoBuild<CR>
+
