@@ -155,13 +155,13 @@ nnoremap ∑ :close<CR>
 nnoremap œ :qa<CR>
 " Alt-s to save (write)
 nnoremap ß :w<CR>
-" Alt-l to move to right window
+" Alt-l to move cursor to right window
 nnoremap ¬ <C-W>l
-" Alt-h to move to right window
+" Alt-h to move cursor to left window
 nnoremap ˙ <C-W>h
-" Alt-j to move to right window
+" Alt-j to move cursor to below window
 nnoremap ∆ <C-W>j
-" Alt-k to move to right window
+" Alt-k to move cursor to above window
 nnoremap ˚ <C-W>k
 " Alt-p to show yank-ring window
 nnoremap π :YRShow<CR>
