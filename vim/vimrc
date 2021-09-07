@@ -177,6 +177,8 @@ nnoremap ©ß :G status<CR>
 nnoremap ©å :G add -A<CR>
 " Alt-g Alt-c to git commit -m ''
 nnoremap ©ç :G commit -m ''<left>
+" Alt-g Alt-p to git push
+nnoremap ©π :G push<CR>
 
 " NERDTree
 " --------
