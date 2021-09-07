@@ -169,6 +169,15 @@ nnoremap π :YRShow<CR>
 " Alt-a to select all text
 nnoremap å ggVG
 
+" Fugitive
+" --------
+" Alt-g Alt-s to git status
+nnoremap ©ß :G status<CR>
+" Alt-g Alt-a to git add -A
+nnoremap ©å :G add -A<CR>
+" Alt-g Alt-c to git commit -m ''
+nnoremap ©ç :G commit -m ''<left>
+
 " NERDTree
 " --------
 nnoremap ƒ :NERDTreeFind<CR>
