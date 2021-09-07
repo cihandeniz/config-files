@@ -175,8 +175,8 @@ nnoremap ƒ :NERDTreeFind<CR>
 
 " Go
 " --
-" Alt-Shift-r to run
-autocmd FileType go nnoremap ® :GoRun<CR>
-" Alt-Shift-b to build
-autocmd FileType go nnoremap ∫ :GoBuild<CR>
+" Alt-r to run
+autocmd FileType go nnoremap ® :w<CR>:GoBuild<CR>:GoRun<CR>
+" Alt-b to build
+autocmd FileType go nnoremap ∫ :w<CR>:GoBuild<CR>
 
