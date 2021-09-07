@@ -190,4 +190,7 @@ nnoremap ƒ :NERDTreeFind<CR>
 autocmd FileType go nnoremap ® :w<CR>:GoBuild<CR>:GoRun<CR>
 " Alt-b to build
 autocmd FileType go nnoremap ∫ :w<CR>:GoBuild<CR>
-
+" Alt-c to comment
+autocmd FileType go nnoremap ç mc^i// <Esc>`clll
+" Alt-Shift-c to uncomment
+autocmd FileType go nnoremap Ç mc^xxx`chhh
