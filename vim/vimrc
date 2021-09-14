@@ -144,8 +144,11 @@ let g:UltiSnipsJumpBackwardTrigger="˙"
 " key mappings
 " ------------
 
+" Alt-t to open fuzzy search
 nnoremap † :FZF<CR>
+" Alt-o to open find symbol in workspace
 nmap ø <Plug>(YCMFindSymbolInWorkspace)
+" F8 to open/close tagbar
 nmap <F8> :TagbarToggle<CR>
 
 " Alt-, to open ~/.vimrc
