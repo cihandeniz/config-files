@@ -169,6 +169,10 @@ nnoremap ∆ <C-W>j
 nnoremap ˚ <C-W>k
 " Alt-p to show yank-ring window
 nnoremap π :YRShow<CR>
+" Alt-shift-p to paste from clipboard
+nnoremap ∏ "+p
+" Alt-shift-y to yank to clipboard
+nnoremap Á "+y
 " Alt-a to select all text
 nnoremap å ggVG
 
@@ -185,7 +189,8 @@ nnoremap ©π :G push<CR>
 
 " NERDTree
 " --------
-nnoremap ƒ :NERDTreeFind<CR>
+" Alt-f to sync file in nerd tree
+nnoremap ƒ :NERDTreeFind<CR><C-W>l
 
 " Go
 " --
