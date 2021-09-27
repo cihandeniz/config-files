@@ -167,12 +167,16 @@ nnoremap ˙ <C-W>h
 nnoremap ∆ <C-W>j
 " Alt-k to move cursor to above window
 nnoremap ˚ <C-W>k
+" Alt-Shift-l to move to next buffer
+nnoremap Ò :bn<CR>
+" Alt-Shift-h to move to previous buffer
+nnoremap Ó :bp<CR>
 " Alt-p to show yank-ring window
 nnoremap π :YRShow<CR>
-" Alt-shift-p to paste from clipboard
-noremap ∏ "+p
-" Alt-shift-y to yank to clipboard
-noremap Á "+y
+" Alt-Shift-p to paste from clipboard
+noremap ∏ "+P
+" Alt-Shift-y to yank to clipboard
+noremap Á "+Y
 " Alt-a to select all text
 nnoremap å ggVG
 
