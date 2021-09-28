@@ -92,7 +92,7 @@ autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_
     \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
 
 " Open the existing NERDTree on each new tab.
-autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+autocmd BufWinEnter * if getcmdwintype() == '' && getbufvar('%', '&buftype', 'ERROR') != 'quickfix' | silent NERDTreeMirror | endif
 
 let g:NERDTreeGitStatusUseNerdFonts = 2 " you should install nerdfonts by yourself. default: 0
 let g:NERDTreeWinSize = 40
