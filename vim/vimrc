@@ -97,6 +97,7 @@ autocmd BufWinEnter * if getcmdwintype() == '' && getbufvar('%', '&buftype', 'ER
 let g:NERDTreeGitStatusUseNerdFonts = 2 " you should install nerdfonts by yourself. default: 0
 let g:NERDTreeWinSize = 40
 let g:NERDTreeMinimalUI = 1
+let g:NERDTreeIgnore = ['^node_modules$']
 
 " air-line
 " --------
