@@ -152,7 +152,7 @@ nmap ø <Plug>(YCMFindSymbolInWorkspace)
 " F8 to open/close tagbar
 nmap <F8> :TagbarToggle<CR>
 
-" Alt-, to open ~/.vimrc
+" Ctrl-, to open ~/.vimrc
 nnoremap <silent> ≤ :tabedit ~/.vimrc<CR>
 " Alt-w to close
 nnoremap ∑ :close<CR>
@@ -180,6 +180,10 @@ noremap ∏ "+P
 noremap Á "+Y
 " Alt-a to select all text
 nnoremap å ggVG
+" Alt-Shift-. to increase window width
+nnoremap ˘ <C-w>>
+" Alt-Shift-, to decrease window width
+nnoremap ¯ <C-w><
 
 " Fugitive
 " --------
