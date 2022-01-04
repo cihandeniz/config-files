@@ -181,7 +181,7 @@ nnoremap π :YRShow<CR>
 " Alt-Shift-p to paste from clipboard
 noremap ∏ "+P
 " Alt-Shift-y to yank to clipboard
-noremap Á "+Y
+noremap Á "+y
 " Alt-a to select all text
 nnoremap å ggVG
 " Alt-Shift-. to increase window width
