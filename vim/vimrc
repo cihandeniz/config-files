@@ -43,7 +43,9 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'vim-airline/vim-airline'
 " themes for status bar
 Plug 'vim-airline/vim-airline-themes'
-" file search pluigin
+" highlight other uses of current word
+Plug 'RRethy/vim-illuminate'
+" file search plugin
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " highlights trailing whitespaces and trims them upon save
@@ -58,6 +60,8 @@ Plug 'preservim/tagbar'
 Plug 'djoshea/vim-autoread'
 " go support
 Plug 'fatih/vim-go', { 'tag': '*' }
+" c# support
+Plug 'OmniSharp/omnisharp-vim'
 " code autocomplete
 Plug 'ycm-core/YouCompleteMe'
 "code snippet too
@@ -97,7 +101,7 @@ autocmd BufWinEnter * if getcmdwintype() == '' && getbufvar('%', '&buftype', 'ER
 let g:NERDTreeGitStatusUseNerdFonts = 2 " you should install nerdfonts by yourself. default: 0
 let g:NERDTreeWinSize = 40
 let g:NERDTreeMinimalUI = 1
-let g:NERDTreeIgnore = ['^node_modules$']
+let g:NERDTreeIgnore = ['^node_modules$', '^bin$', '^obj$']
 
 " air-line
 " --------
