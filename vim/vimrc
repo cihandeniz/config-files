@@ -62,6 +62,8 @@ Plug 'djoshea/vim-autoread'
 Plug 'fatih/vim-go', { 'tag': '*' }
 " c# support
 Plug 'OmniSharp/omnisharp-vim'
+" Mappings, code-actions available flag and statusline integration
+Plug 'nickspoons/vim-sharpenup'
 " code autocomplete
 Plug 'ycm-core/YouCompleteMe'
 "code snippet too
@@ -130,6 +132,7 @@ endif
 " -----------------
 let g:better_whitespace_enabled=1
 let g:strip_whitespace_on_save=1
+let g:strip_whitespace_confirm=0
 
 " vim go
 " ------
@@ -146,6 +149,11 @@ let g:UltiSnipsJumpForwardTrigger="¬"
 " Alt-h to jump backward
 let g:UltiSnipsJumpBackwardTrigger="˙"
 
+" sharpenup
+" ---------
+let g:sharpenup_map_prefix='≥'
+let g:sharpenup_codeactions_autocmd='CursorHold,CursorMoved'
+
 " key mappings
 " ------------
 
@@ -160,7 +168,9 @@ nmap <F8> :TagbarToggle<CR>
 nnoremap <silent> ≤ :tabedit ~/.vimrc<CR>
 " Alt-w to close
 nnoremap ∑ :close<CR>
-" Alt-q to close all
+" Alt-Shift-w to close all
+nnoremap „ :%bd<CR>:NERDTreeToggle <CR>
+" Alt-q to quit
 nnoremap œ :qa<CR>
 " Alt-s to save (write)
 nnoremap ß :w<CR>
@@ -215,3 +225,10 @@ autocmd FileType go nnoremap ∫ :w<CR>:GoBuild<CR>
 autocmd FileType go nnoremap ç mc^i// <Esc>`clll
 " Alt-Shift-c to uncomment
 autocmd FileType go nnoremap Ç mc^xxx`chhh
+
+" C#
+" --
+" Alt-Shift-o to fix usings and code format
+nnoremap Ø :OmniSharpCodeFormat<CR>:OmniSharpFixUsings<CR>
+" Alt-. Alt-. to open code actions
+nnoremap ≥≥ :OmniSharpGetCodeActions<CR>
