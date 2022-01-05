@@ -46,6 +46,7 @@ Plug 'prabirshrestha/asyncomplete.vim'
 " code snippet too
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
 " closes all types of quotes and brackets automatically
 Plug 'gosukiwi/vim-smartpairs'
 " enables beautiful file icons in nerd tree
@@ -146,12 +147,12 @@ syntax on
 
 " ulti snips
 " ----------
-" Alt-j to expand (like CMD-Down to enter)
-let g:UltiSnipsExpandTrigger="∆"
-" Alt-l to jump forward
-let g:UltiSnipsJumpForwardTrigger="¬"
-" Alt-h to jump backward
-let g:UltiSnipsJumpBackwardTrigger="˙"
+" Tab to expand (like CMD-Down to enter)
+let g:UltiSnipsExpandTrigger="<Tab>"
+" Tab to jump forward
+let g:UltiSnipsJumpForwardTrigger="<Tab>"
+" Shift-Tab to jump backward
+let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
 
 " sharpenup
 " ---------
@@ -175,12 +176,16 @@ let g:ale_fix_on_save = 1
 
 " Asyncomplete
 " ------------
-let g:asyncomplete_auto_popup = 1
+let g:asyncomplete_auto_popup = 0
 let g:asyncomplete_auto_completeopt = 0
-imap <c-space> <Plug>(asyncomplete_force_refresh)
 set completeopt=menuone,noinsert,noselect,preview
 set completepopup=highlight:Pmenu,border:off
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+\ 'name': 'ultisnips',
+\ 'allowlist': ['*'],
+\ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+\ }))
 
 " OmniSharp
 " ---------
@@ -279,3 +284,5 @@ autocmd FileType go nnoremap Ç mc^xxx`chhh
 nnoremap Ø :OmniSharpCodeFormat<CR>:OmniSharpFixUsings<CR>
 " Alt-. Alt-. to open code actions
 nnoremap ≥≥ :OmniSharpGetCodeActions<CR>
+autocmd FileType cs imap <c-@> <Plug>(asyncomplete_force_refresh)
+autocmd FileType cs imap . .<Plug>(asyncomplete_force_refresh)
