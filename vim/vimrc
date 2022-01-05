@@ -1,32 +1,5 @@
 source $VIMRUNTIME/defaults.vim
 
-set incsearch
-set ignorecase smartcase
-set ruler
-set showcmd
-set tabstop=4
-set shiftwidth=4
-set smartindent
-set autoindent
-set expandtab
-set history=1000
-set wildmenu
-set splitright
-set splitbelow
-set foldcolumn=2
-set number
-
-augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &filetype != 'nerdtree' && &filetype != 'tagbar' && mode() != "i" | set rnu | set nonu | endif
-  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &filetype != 'nerdtree' && &filetype != 'tagbar' | set nornu | set nu | endif
-augroup END
-
-augroup vimrcEx
-  au!
-  autocmd FileType text setlocal textwidth=80
-augroup END
-
 call plug#begin('~/.vim/plugged')
 
 " theme
@@ -64,9 +37,13 @@ Plug 'fatih/vim-go', { 'tag': '*' }
 Plug 'OmniSharp/omnisharp-vim'
 " Mappings, code-actions available flag and statusline integration
 Plug 'nickspoons/vim-sharpenup'
+" Linting/error highlighting
+Plug 'dense-analysis/ale'
+" Autocompletion
+Plug 'prabirshrestha/asyncomplete.vim'
 " code autocomplete
-Plug 'ycm-core/YouCompleteMe'
-"code snippet too
+" Plug 'ycm-core/YouCompleteMe'
+" code snippet too
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 " closes all types of quotes and brackets automatically
@@ -75,6 +52,33 @@ Plug 'gosukiwi/vim-smartpairs'
 Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
+
+set incsearch
+set ignorecase smartcase
+set ruler
+set showcmd
+set tabstop=4
+set shiftwidth=4
+set smartindent
+set autoindent
+set expandtab
+set history=1000
+set wildmenu
+set splitright
+set splitbelow
+set foldcolumn=2
+set number
+
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &filetype != 'nerdtree' && &filetype != 'tagbar' && mode() != "i" | set rnu | set nonu | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &filetype != 'nerdtree' && &filetype != 'tagbar' | set nornu | set nu | endif
+augroup END
+
+augroup vimrcEx
+  au!
+  autocmd FileType text setlocal textwidth=80
+augroup END
 
 " gruvbox
 " -------
@@ -153,6 +157,49 @@ let g:UltiSnipsJumpBackwardTrigger="˙"
 " ---------
 let g:sharpenup_map_prefix='≥'
 let g:sharpenup_codeactions_autocmd='CursorHold,CursorMoved'
+
+" ALE
+" ---
+let g:ale_sign_error = '•'
+let g:ale_sign_warning = '•'
+let g:ale_sign_info = '·'
+let g:ale_sign_style_error = '·'
+let g:ale_sign_style_warning = '·'
+
+let g:ale_linters = { 'cs': ['OmniSharp'] }
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['eslint'],
+\}
+let g:ale_fix_on_save = 1
+
+" Asyncomplete
+" ------------
+let g:asyncomplete_auto_popup = 1
+let g:asyncomplete_auto_completeopt = 0
+imap <c-space> <Plug>(asyncomplete_force_refresh)
+set completeopt=menuone,noinsert,noselect,preview
+set completepopup=highlight:Pmenu,border:off
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" OmniSharp
+" ---------
+let g:OmniSharp_popup_position = 'peek'
+let g:OmniSharp_popup_options = {
+\ 'highlight': 'Normal',
+\ 'padding': [0, 0, 0, 0],
+\ 'border': [1]
+\}
+let g:OmniSharp_popup_mappings = {
+\ 'sigNext': '<C-n>',
+\ 'sigPrev': '<C-p>',
+\ 'pageDown': ['<C-f>', '<PageDown>'],
+\ 'pageUp': ['<C-b>', '<PageUp>']
+\}
+let g:OmniSharp_want_snippet = 1
+let g:OmniSharp_highlight_groups = {
+\ 'ExcludedCode': 'NonText'
+\}
 
 " key mappings
 " ------------
