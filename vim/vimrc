@@ -287,16 +287,18 @@ autocmd FileType go nnoremap Ç mc^xxx`chhh
 
 " C#
 " --
-" Alt-Shift-o to fix usings and code format
-nnoremap Ø :OmniSharpCodeFormat<CR>:OmniSharpFixUsings<CR>
+" Alt-Shift-o to fix and sort usings and code format
+nnoremap Ø :OmniSharpCodeFormat<CR>:OmniSharpFixUsings<CR>mxggV}k:sort<CR>`xzz
 " Alt-. Alt-. to open code actions
 nnoremap ≥≥ :OmniSharpGetCodeActions<CR>
 autocmd FileType cs imap <c-@> <Plug>(asyncomplete_force_refresh)
 autocmd FileType cs imap . .<Plug>(asyncomplete_force_refresh)
-" Alt-r to build
+" Alt-r to run
 autocmd FileType cs nnoremap ® :w<CR>:terminal ./run.sh<CR>
 " Alt-b to build
 autocmd FileType cs nnoremap ∫ :w<CR>:!dotnet build<CR>
+" Alt-Shift-b to build
+autocmd FileType cs nnoremap ı :w<CR>:!dotnet build --no-incremental<CR>
 " Alt-c to comment
 autocmd FileType cs nnoremap ç mc^i// <Esc>`clll
 " Alt-Shift-c to uncomment
