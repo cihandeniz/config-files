@@ -288,7 +288,7 @@ autocmd FileType go nnoremap Ç mc^xxx`chhh
 " C#
 " --
 " Alt-Shift-o to fix and sort usings and code format
-nnoremap Ø :OmniSharpCodeFormat<CR>:OmniSharpFixUsings<CR>mxggV}k:sort<CR>`xzz
+nnoremap Ø :OmniSharpCodeFormat<CR>mxggV}k:sort<CR>`xzz:OmniSharpFixUsings<CR>
 " Alt-. Alt-. to open code actions
 nnoremap ≥≥ :OmniSharpGetCodeActions<CR>
 autocmd FileType cs imap <c-@> <Plug>(asyncomplete_force_refresh)
