@@ -80,8 +80,9 @@ set number
 " commands
 " --------
 
-" close this command
-command CloseThis let curbuf=bufnr() | bp | execute 'bd '.curbuf
+" deletes current buffer if there is single window, closes window if there
+" more than one
+command CloseThis if winnr('$') > 2 | close | else | let curbuf=bufnr() | bp | execute 'bd '.curbuf | endif
 
 " auto commands
 " -------------
