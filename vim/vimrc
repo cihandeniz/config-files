@@ -8,6 +8,10 @@ Plug 'morhetz/gruvbox'
 Plug 'vim-scripts/YankRing.vim'
 " folder tree on left
 Plug 'preservim/nerdtree'
+" buffers as tabs
+Plug 'ap/vim-buftabline'
+" close buffers in a smarter way
+Plug 'Asheq/close-buffers.vim'
 " shows symbols according to git status in the tree
 Plug 'Xuyuanp/nerdtree-git-plugin'
 " highlight files and folders according to their types
@@ -73,6 +77,14 @@ set splitbelow
 set foldcolumn=2
 set number
 
+" commands
+" --------
+
+" close this command
+command CloseThis let curbuf=bufnr() | bp | execute 'bd '.curbuf
+
+" auto commands
+" -------------
 augroup numbertoggle
   autocmd!
   autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &filetype != 'nerdtree' && &filetype != 'tagbar' && mode() != "i" | set rnu | set nonu | endif
@@ -111,7 +123,7 @@ autocmd BufWinEnter * if getcmdwintype() == '' && getbufvar('%', '&buftype', 'ER
 let g:NERDTreeGitStatusUseNerdFonts = 2 " you should install nerdfonts by yourself. default: 0
 let g:NERDTreeWinSize = 40
 let g:NERDTreeMinimalUI = 1
-let g:NERDTreeIgnore = ['^node_modules$', '^bin$', '^obj$']
+let g:NERDTreeIgnore = ['.DS_Store', '^.git$', '^node_modules$', '^bin$', '^obj$']
 
 " air-line
 " --------
@@ -223,12 +235,12 @@ nmap ø <Plug>(YCMFindSymbolInWorkspace)
 " F8 to open/close tagbar
 nmap <F8> :TagbarToggle<CR>
 
-" Ctrl-, to open ~/.vimrc
-nnoremap <silent> ≤ :tabedit ~/.vimrc<CR>
+" Alt-, to open ~/.vimrc
+nnoremap <silent> ≤ :e ~/.vimrc<CR>
 " Alt-w to close
-nnoremap ∑ :close<CR>
-" Alt-Shift-w to close all
-nnoremap „ :%bd<CR>:NERDTreeToggle <CR>
+nnoremap ∑ :CloseThis<CR>
+" Alt-Shift-w to close
+nnoremap „ :Bdelete hidden<CR>
 " Alt-q to quit
 nnoremap œ :qa<CR>
 " Alt-s to save (write)
