@@ -44,10 +44,19 @@ Plug 'OmniSharp/omnisharp-vim'
 Plug 'OrangeT/vim-csharp'
 " Mappings, code-actions available flag and statusline integration
 Plug 'nickspoons/vim-sharpenup'
+" js support
+Plug 'pangloss/vim-javascript'
+" ts support
+Plug 'leafgarland/typescript-vim'
+" react support
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'peitalin/vim-jsx-typescript'
 " Linting/error highlighting
 Plug 'dense-analysis/ale'
 " Autocompletion
 Plug 'prabirshrestha/asyncomplete.vim'
+" Code completion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " code autocomplete
 " Plug 'ycm-core/YouCompleteMe'
 " code snippet too
@@ -175,6 +184,11 @@ let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
 let g:sharpenup_map_prefix='≥'
 let g:sharpenup_codeactions_autocmd='CursorHold,CursorMoved'
 
+" javascript
+" ----------
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_ngdoc = 1
+
 " ALE
 " ---
 let g:ale_sign_error = '•'
@@ -182,12 +196,15 @@ let g:ale_sign_warning = '•'
 let g:ale_sign_info = '·'
 let g:ale_sign_style_error = '·'
 let g:ale_sign_style_warning = '·'
-
 let g:ale_linters = { 'cs': ['OmniSharp'] }
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint'],
+\   'javascript': ['prettier', 'eslint'],
+\   'vue': ['eslint', 'stylelint'],
 \}
+let g:ale_linters_explicit = 1
+let g:ale_javascript_eslint_use_global = 1
+let g:ale_sign_column_always = 1
 let g:ale_fix_on_save = 1
 
 " Asyncomplete
@@ -301,9 +318,9 @@ autocmd FileType go nnoremap Ç mc^xxx`chhh
 " C#
 " --
 " Alt-Shift-o to fix and sort usings and code format
-nnoremap Ø :OmniSharpCodeFormat<CR>mxggV}k:sort<CR>`xzz:OmniSharpFixUsings<CR>
+autocmd FileType cs nnoremap Ø :OmniSharpCodeFormat<CR>mxggV}k:sort<CR>`xzz:OmniSharpFixUsings<CR>
 " Alt-. Alt-. to open code actions
-nnoremap ≥≥ :OmniSharpGetCodeActions<CR>
+autocmd FileType cs nnoremap ≥≥ :OmniSharpGetCodeActions<CR>
 autocmd FileType cs imap <c-@> <Plug>(asyncomplete_force_refresh)
 autocmd FileType cs imap . .<Plug>(asyncomplete_force_refresh)
 " Alt-r to run
@@ -316,3 +333,14 @@ autocmd FileType cs nnoremap ı :w<CR>:!dotnet build --no-incremental<CR>
 autocmd FileType cs nnoremap ç mc^i// <Esc>`clll
 " Alt-Shift-c to uncomment
 autocmd FileType cs nnoremap Ç mc^xxx`chhh
+
+" JS
+" use Alt-. for leader except go to definition
+autocmd FileType javascript nnoremap ≥≥ :CocAction<CR>
+autocmd FileType javascript nnoremap gd :call CocAction('jumpDefinition')<CR>
+autocmd FileType javascript nnoremap ≥fi :call CocAction('jumpImplementation')<CR>
+autocmd FileType javascript nnoremap ≥fu :call CocAction('jumpReferences')<CR>
+autocmd FileType javascript nnoremap ≥nm :call CocAction('rename')<CR>
+autocmd FileType javascript nnoremap ≥cr :CocRestart<CR>
+" Alt-c to comment
+autocmd FileType javascript nnoremap ç mc^i// <Esc>`clll
