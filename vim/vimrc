@@ -92,6 +92,12 @@ set number
 " deletes current buffer if there is single window, closes window if there
 " more than one
 command CloseThis if winnr('$') > 2 | close | else | let curbuf=bufnr() | bp | execute 'bd '.curbuf | endif
+" git checkout this file to HEAD
+command Gundo
+            \ let currentfile=expand('%') |
+            \ if confirm('Are you sure to undo local changes to "'.currentfile.'"?', "&Yes\n&No", 0) == 1 |
+              \ echo system('git checkout HEAD -- '.currentfile) |
+            \ endif
 
 " auto commands
 " -------------
@@ -199,11 +205,9 @@ let g:ale_sign_style_warning = '·'
 let g:ale_linters = { 'cs': ['OmniSharp'] }
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['prettier', 'eslint'],
-\   'vue': ['eslint', 'stylelint'],
+\   'javascript': ['eslint']
 \}
 let g:ale_linters_explicit = 1
-let g:ale_javascript_eslint_use_global = 1
 let g:ale_sign_column_always = 1
 let g:ale_fix_on_save = 1
 
@@ -298,6 +302,10 @@ nnoremap ©å :G add -A<CR>
 nnoremap ©ç :G commit -m ''<left>
 " Alt-g Alt-p to git push
 nnoremap ©π :G push<CR>
+" Alt-g Alt-d to git diff
+nnoremap ©∂ :Gdiff!<CR>
+" Alt-g Alt-r to git checkout current file to head
+nnoremap <silent> ©® :Gundo<CR>
 
 " NERDTree
 " --------
@@ -342,5 +350,7 @@ autocmd FileType javascript nnoremap ≥fi :call CocAction('jumpImplementation')
 autocmd FileType javascript nnoremap ≥fu :call CocAction('jumpReferences')<CR>
 autocmd FileType javascript nnoremap ≥nm :call CocAction('rename')<CR>
 autocmd FileType javascript nnoremap ≥cr :CocRestart<CR>
+" Alt-r to run
+autocmd FileType javascript nnoremap ® :w<CR>:terminal ./run.sh<CR>
 " Alt-c to comment
 autocmd FileType javascript nnoremap ç mc^i// <Esc>`clll
