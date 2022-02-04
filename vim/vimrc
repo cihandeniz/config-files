@@ -89,15 +89,28 @@ set number
 " commands
 " --------
 
-" deletes current buffer if there is single window, closes window if there
-" more than one
-command CloseThis if winnr('$') > 2 | close | else | let curbuf=bufnr() | bp | execute 'bd '.curbuf | endif
+" deletes current buffer and moves to previous
+command CloseThis
+  \ if winnr('$') > 2 |
+    \ close |
+  \ else |
+    \ let curbuf=bufnr() |
+    \ bp |
+    \ execute 'bd '.curbuf |
+  \ endif
 " git checkout this file to HEAD
 command Gundo
-            \ let currentfile=expand('%') |
-            \ if confirm('Are you sure to undo local changes to "'.currentfile.'"?', "&Yes\n&No", 0) == 1 |
-              \ echo system('git checkout HEAD -- '.currentfile) |
-            \ endif
+  \ let currentfile=expand('%') |
+  \ if confirm('Are you sure to undo local changes to "'.currentfile.'"?', "&Yes\n&No", 0) == 1 |
+    \ echo system('git checkout HEAD -- '.currentfile) |
+  \ endif
+command RunThis
+  \ if filereadable('run.sh') |
+    \ echo 'run.sh found, running!' |
+    \ execute 'terminal ./run.sh' |
+  \ else |
+    \ echo 'no run.sh found!' |
+  \ endif
 
 " auto commands
 " -------------
@@ -139,7 +152,7 @@ autocmd BufWinEnter * if getcmdwintype() == '' && getbufvar('%', '&buftype', 'ER
 let g:NERDTreeGitStatusUseNerdFonts = 2 " you should install nerdfonts by yourself. default: 0
 let g:NERDTreeWinSize = 40
 let g:NERDTreeMinimalUI = 1
-let g:NERDTreeIgnore = ['.DS_Store', '^.git$', '^node_modules$', '^bin$', '^obj$']
+let g:NERDTreeIgnore = ['.DS_Store', '^.git$', '^node_modules$', '^bin$', '^obj$', '^tags$']
 
 " air-line
 " --------
@@ -205,7 +218,6 @@ let g:ale_sign_style_warning = '·'
 let g:ale_linters = { 'cs': ['OmniSharp'] }
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint']
 \}
 let g:ale_linters_explicit = 1
 let g:ale_sign_column_always = 1
@@ -291,6 +303,8 @@ nnoremap å ggVG
 nnoremap ˘ <C-w>>
 " Alt-Shift-, to decrease window width
 nnoremap ¯ <C-w><
+" Alt-r to run
+nnoremap ® :w<CR>:RunThis<CR>
 
 " Fugitive
 " --------
@@ -329,10 +343,10 @@ autocmd FileType go nnoremap Ç mc^xxx`chhh
 autocmd FileType cs nnoremap Ø :OmniSharpCodeFormat<CR>mxggV}k:sort<CR>`xzz:OmniSharpFixUsings<CR>
 " Alt-. Alt-. to open code actions
 autocmd FileType cs nnoremap ≥≥ :OmniSharpGetCodeActions<CR>
+" Ctrl-Space to open autocomplete while typing
 autocmd FileType cs imap <c-@> <Plug>(asyncomplete_force_refresh)
+" . to open autocomplete while typing
 autocmd FileType cs imap . .<Plug>(asyncomplete_force_refresh)
-" Alt-r to run
-autocmd FileType cs nnoremap ® :w<CR>:terminal ./run.sh<CR>
 " Alt-b to build
 autocmd FileType cs nnoremap ∫ :w<CR>:!dotnet build<CR>
 " Alt-Shift-b to build
@@ -343,14 +357,22 @@ autocmd FileType cs nnoremap ç mc^i// <Esc>`clll
 autocmd FileType cs nnoremap Ç mc^xxx`chhh
 
 " JS
-" use Alt-. for leader except go to definition
-autocmd FileType javascript nnoremap ≥≥ :CocAction<CR>
-autocmd FileType javascript nnoremap gd :call CocAction('jumpDefinition')<CR>
-autocmd FileType javascript nnoremap ≥fi :call CocAction('jumpImplementation')<CR>
-autocmd FileType javascript nnoremap ≥fu :call CocAction('jumpReferences')<CR>
-autocmd FileType javascript nnoremap ≥nm :call CocAction('rename')<CR>
-autocmd FileType javascript nnoremap ≥cr :CocRestart<CR>
-" Alt-r to run
-autocmd FileType javascript nnoremap ® :w<CR>:terminal ./run.sh<CR>
+" --
+" Alt-. for leader except go to definition
+autocmd FileType javascript,vue nnoremap ≥≥ :CocAction<CR>
+" gd to go to definition
+autocmd FileType javascript,vue nnoremap gd :call CocActionAsync('jumpDefinition')<CR>
+" Alt-. fi to find implementations
+autocmd FileType javascript,vue nnoremap ≥fi :call CocActionAsync('jumpImplementation')<CR>
+" Alt-. fu to find usages
+autocmd FileType javascript,vue nnoremap ≥fu :call CocActionAsync('jumpReferences')<CR>
+" Alt-. nm to rename
+autocmd FileType javascript,vue nnoremap ≥nm :call CocActionAsync('rename')<CR>
+" Alt-Shift-p to format
+autocmd FileType javascript,vue nnoremap Ø :CocCommand eslint.executeAutofix<CR>
+" Alt-. cr to restart coc
+autocmd FileType javascript,vue nnoremap ≥cr :CocRestart<CR>
 " Alt-c to comment
-autocmd FileType javascript nnoremap ç mc^i// <Esc>`clll
+autocmd FileType javascript,vue nnoremap ç mc^i// <Esc>`clll
+" Alt-Shift-c to uncomment
+autocmd FileType javascript,vue nnoremap Ç mc^xxx`chhh
