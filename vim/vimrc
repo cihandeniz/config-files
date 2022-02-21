@@ -4,6 +4,7 @@ call plug#begin('~/.vim/plugged')
 
 " theme
 Plug 'morhetz/gruvbox'
+Plug 'danilo-augusto/vim-afterglow'
 " yanks to multiple registers and allows to paste from a list
 Plug 'vim-scripts/YankRing.vim'
 " folder tree on left
@@ -104,12 +105,20 @@ command Gundo
   \ if confirm('Are you sure to undo local changes to "'.currentfile.'"?', "&Yes\n&No", 0) == 1 |
     \ echo system('git checkout HEAD -- '.currentfile) |
   \ endif
+" git add and commit
+command Gcommit
+  \ G status |
+  \ let message=input('Commit message: ') |
+  \ if len(message) > 0 |
+    \ echo system('git add -A') |
+    \ echo system('git commit -m '''.message.''' ') |
+  \ endif
+" run if run.sh exists
 command RunThis
   \ if filereadable('run.sh') |
     \ echo 'run.sh found, running!' |
     \ execute 'terminal ./run.sh' |
   \ else |
-    \ echo 'no run.sh found!' |
   \ endif
 
 " auto commands
@@ -125,10 +134,26 @@ augroup vimrcEx
   autocmd FileType text setlocal textwidth=80
 augroup END
 
-" gruvbox
+" themes
 " -------
 colorscheme gruvbox
 set bg=dark
+
+" uncomment below to have different theme for different modes
+" ---------
+" autocmd InsertEnter * colorscheme afterglow | set bg=dark
+" autocmd InsertLeave * colorscheme gruvbox | set bg=dark
+
+" cursors
+" -------
+let &t_SI = "\e[5 q" " blinking bar for insert mode
+let &t_EI = "\e[4 q" " steady underline for normal mode
+
+" air-line
+" --------
+let g:airline_theme='distinguished'
+let g:airline#extensions#tabline#enabled = 0
+let g:airline_powerline_fonts = 1
 
 " nerd tree
 " ---------
@@ -153,12 +178,6 @@ let g:NERDTreeGitStatusUseNerdFonts = 2 " you should install nerdfonts by yourse
 let g:NERDTreeWinSize = 40
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeIgnore = ['.DS_Store', '^.git$', '^node_modules$', '^bin$', '^obj$', '^tags$']
-
-" air-line
-" --------
-let g:airline_theme='distinguished'
-let g:airline#extensions#tabline#enabled = 0
-let g:airline_powerline_fonts = 1
 
 " webdevicons
 " -----------
@@ -268,7 +287,10 @@ nnoremap † :FZF<CR>
 nmap ø <Plug>(YCMFindSymbolInWorkspace)
 " F8 to open/close tagbar
 nmap <F8> :TagbarToggle<CR>
-
+" Shift-k to insert next line (opposite of Shift-j)
+nnoremap K i<CR><Esc>l
+" Alt-;
+imap … <End>;
 " Alt-, to open ~/.vimrc
 nnoremap <silent> ≤ :e ~/.vimrc<CR>
 " Alt-w to close
@@ -310,10 +332,8 @@ nnoremap ® :w<CR>:RunThis<CR>
 " --------
 " Alt-g Alt-s to git status
 nnoremap ©ß :G status<CR>
-" Alt-g Alt-a to git add -A
-nnoremap ©å :G add -A<CR>
 " Alt-g Alt-c to git commit -m ''
-nnoremap ©ç :G commit -m ''<left>
+nnoremap ©ç :Gcommit<CR>
 " Alt-g Alt-p to git push
 nnoremap ©π :G push<CR>
 " Alt-g Alt-d to git diff
