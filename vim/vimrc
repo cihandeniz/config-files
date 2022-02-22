@@ -283,68 +283,95 @@ let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
 
 " Alt-t to open fuzzy search
 nnoremap † :FZF<CR>
+nnoremap t :FZF<CR>
 " Alt-o to open find symbol in workspace
 nmap ø <Plug>(YCMFindSymbolInWorkspace)
+" TODO nmap o <Plug>(YCMFindSymbolInWorkspace)
 " F8 to open/close tagbar
 nmap <F8> :TagbarToggle<CR>
 " Shift-k to insert next line (opposite of Shift-j)
 nnoremap K i<CR><Esc>l
 " Alt-;
 imap … <End>;
+imap ; <End>;
 " Alt-, to open ~/.vimrc
-nnoremap <silent> ≤ :e ~/.vimrc<CR>
+nnoremap ≤ :e ~/.vimrc<CR>
+nnoremap , :e ~/.vimrc<CR>
 " Alt-w to close
 nnoremap ∑ :CloseThis<CR>
+nnoremap w :CloseThis<CR>
 " Alt-Shift-w to close
 nnoremap „ :Bdelete hidden<CR>
+nnoremap W :Bdelete hidden<CR>
 " Alt-q to quit
 nnoremap œ :qa<CR>
+nnoremap q :qa<CR>
 " Alt-s to save (write)
 nnoremap ß :w<CR>
+nnoremap s :w<CR>
 " Alt-l to move cursor to right window
 nnoremap ¬ <C-W>l
+nnoremap l <C-W>l
 " Alt-h to move cursor to left window
 nnoremap ˙ <C-W>h
+nnoremap h <C-W>h
 " Alt-j to move cursor to below window
 nnoremap ∆ <C-W>j
+nnoremap j <C-W>j
 " Alt-k to move cursor to above window
 nnoremap ˚ <C-W>k
+nnoremap k <C-W>k
 " Alt-Shift-l to move to next buffer
 nnoremap Ò :bn<CR>
+nnoremap L :bn<CR>
 " Alt-Shift-h to move to previous buffer
 nnoremap Ó :bp<CR>
+nnoremap H :bp<CR>
 " Alt-p to show yank-ring window
 nnoremap π :YRShow<CR>
+nnoremap p :YRShow<CR>
 " Alt-Shift-p to paste from clipboard
 noremap ∏ "+P
+" TODO noremap P "+P
 " Alt-Shift-y to yank to clipboard
 noremap Á "+y
+" TODO noremap Y "+y
 " Alt-a to select all text
 nnoremap å ggVG
+nnoremap a ggVG
 " Alt-Shift-. to increase window width
 nnoremap ˘ <C-w>>
+" TODO nnoremap > <C-w>>
 " Alt-Shift-, to decrease window width
 nnoremap ¯ <C-w><
+nnoremap < <C-w><
 " Alt-r to run
 nnoremap ® :w<CR>:RunThis<CR>
+nnoremap r :w<CR>:RunThis<CR>
 
 " Fugitive
 " --------
 " Alt-g Alt-s to git status
 nnoremap ©ß :G status<CR>
+nnoremap gs :G status<CR>
 " Alt-g Alt-c to git commit -m ''
 nnoremap ©ç :Gcommit<CR>
+nnoremap gc :Gcommit<CR>
 " Alt-g Alt-p to git push
 nnoremap ©π :G push<CR>
+nnoremap gp :G push<CR>
 " Alt-g Alt-d to git diff
 nnoremap ©∂ :Gdiff!<CR>
+nnoremap gd :Gdiff!<CR>
 " Alt-g Alt-r to git checkout current file to head
 nnoremap <silent> ©® :Gundo<CR>
+nnoremap <silent> gr :Gundo<CR>
 
 " NERDTree
 " --------
 " Alt-f to sync file in nerd tree
 nnoremap ƒ :NERDTreeFind<CR><C-W>l
+nnoremap f :NERDTreeFind<CR><C-W>l
 
 " Go
 " --
