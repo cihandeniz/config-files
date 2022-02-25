@@ -294,63 +294,42 @@ nmap <F8> :TagbarToggle<CR>
 " Shift-k to insert next line (opposite of Shift-j)
 nnoremap K i<CR><Esc>l
 " Alt-;
-imap … <End>;
 imap ; <End>;
 " Alt-, to open ~/.vimrc
-nnoremap ≤ :e ~/.vimrc<CR>
 nnoremap , :e ~/.vimrc<CR>
 " Alt-w to close
-nnoremap ∑ :CloseThis<CR>
 nnoremap w :CloseThis<CR>
 " Alt-Shift-w to close
-nnoremap „ :Bdelete hidden<CR>
 nnoremap W :Bdelete hidden<CR>
 " Alt-q to quit
-nnoremap œ :qa<CR>
 nnoremap q :qa<CR>
 " Alt-s to save (write)
-nnoremap ß :w<CR>
 nnoremap s :w<CR>
 " Alt-l to move cursor to right window
-nnoremap ¬ <C-W>l
 nnoremap l <C-W>l
 " Alt-h to move cursor to left window
-nnoremap ˙ <C-W>h
 nnoremap h <C-W>h
 " Alt-j to move cursor to below window
-nnoremap ∆ <C-W>j
 nnoremap j <C-W>j
 " Alt-k to move cursor to above window
-nnoremap ˚ <C-W>k
 nnoremap k <C-W>k
 " Alt-Shift-l to move to next buffer
-nnoremap Ò :bn<CR>
 nnoremap L :bn<CR>
 " Alt-Shift-h to move to previous buffer
-nnoremap Ó :bp<CR>
 nnoremap H :bp<CR>
 " Alt-p to show yank-ring window
-nnoremap π :YRShow<CR>
 nnoremap p :YRShow<CR>
-" Alt-Shift-p to paste from clipboard (mac)
-noremap ∏ "+P
 " Alt-c to paste from clipboard (linux)
 noremap v  "+P
-" Alt-Shift-y to yank to clipboard (mac)
-noremap Á "+y
-" Alt-v to yank to clipboard (linux)
+" Alt-v to yank to clipboard
 noremap c  "+y
 " Alt-a to select all text
-nnoremap å ggVG
 nnoremap a ggVG
 " Alt-Shift-. to increase window width
-nnoremap ˘ <C-w>>
 nnoremap > <C-w>>
 " Alt-Shift-, to decrease window width
-nnoremap ¯ <C-w><
 nnoremap < <C-w><
 " Alt-r to run
-nnoremap ® :w<CR>:RunThis<CR>
 nnoremap r :w<CR>:RunThis<CR>
 " Alt-x to replace with x
 nnoremap x rx
@@ -358,87 +337,98 @@ nnoremap x rx
 " Fugitive
 " --------
 " Alt-g Alt-s to git status
-nnoremap ©ß :G status<CR>
 nnoremap gs :G status<CR>
 " Alt-g Alt-c to git commit -m ''
-nnoremap ©ç :Gcommit<CR>
 nnoremap gc :Gcommit<CR>
 " Alt-g Alt-p to git push
-nnoremap ©π :G push<CR>
 nnoremap gp :G push<CR>
 " Alt-g Alt-d to git diff
-nnoremap ©∂ :Gdiff!<CR>
 nnoremap gd :Gdiff!<CR>
 " Alt-g Alt-r to git checkout current file to head
-nnoremap <silent> ©® :Gundo<CR>
 nnoremap <silent> gr :Gundo<CR>
 
 " NERDTree
 " --------
 " Alt-f to sync file in nerd tree
-nnoremap ƒ :NERDTreeFind<CR><C-W>l
 nnoremap f :NERDTreeFind<CR><C-W>l
 
 " FZF
 " ---
 " Alt-t to open fuzzy search
-nnoremap † :FZF<CR>
 nnoremap t :FZF<CR>
 
 " YouCompleteMe
 " -------------
 " Alt-o to open find symbol in workspace
-nmap ø <Plug>(YCMFindSymbolInWorkspace)
 nmap o <Plug>(YCMFindSymbolInWorkspace)
 
-" Go
-" --
-" Alt-r to run
-autocmd FileType go nnoremap ® :w<CR>:GoBuild<CR>:GoRun<CR>
-autocmd FileType go nnoremap r :w<CR>:GoBuild<CR>:GoRun<CR>
-" Alt-b to build
-autocmd FileType go nnoremap ∫ :w<CR>:GoBuild<CR>
-autocmd FileType go nnoremap b :w<CR>:GoBuild<CR>
+augroup go
+    autocmd!
 
-" C#
-" --
-" Alt-.
-" Alt-Shift-o to fix and sort usings and code format
-autocmd FileType cs nnoremap Ø :OmniSharpCodeFormat<CR>mxggV}k:sort<CR>`xzz:OmniSharpFixUsings<CR>
-autocmd FileType cs nnoremap O :OmniSharpCodeFormat<CR>mxggV}k:sort<CR>`xzz:OmniSharpFixUsings<CR>
-" Alt-. Alt-. to open code actions
-autocmd FileType cs nnoremap ≥≥ :OmniSharpGetCodeActions<CR>
-autocmd FileType cs nnoremap .. :OmniSharpGetCodeActions<CR>
-" Ctrl-Space to open autocomplete while typing
-autocmd FileType cs imap <c-@> <Plug>(asyncomplete_force_refresh)
-" . to open autocomplete while typing
-autocmd FileType cs imap . .<Plug>(asyncomplete_force_refresh)
-" Alt-b to build
-autocmd FileType cs nnoremap ∫ :w<CR>:!dotnet build<CR>
-autocmd FileType cs nnoremap b :w<CR>:!dotnet build<CR>
-" Alt-Shift-b to build
-autocmd FileType cs nnoremap ı :w<CR>:!dotnet build --no-incremental<CR>
-autocmd FileType cs nnoremap B :w<CR>:!dotnet build --no-incremental<CR>
+    " Alt-r to run
+    autocmd FileType go nnoremap r :w<CR>:GoBuild<CR>:GoRun<CR>
+    " Alt-b to build
+    autocmd FileType go nnoremap b :w<CR>:GoBuild<CR>
+augroup END
 
-" JS
-" --
-" Alt-. for leader except go to definition
-autocmd FileType javascript,vue nnoremap ≥≥ :CocAction<CR>
-autocmd FileType javascript,vue nnoremap .. :CocAction<CR>
-" gd to go to definition
-autocmd FileType javascript,vue nnoremap gd :call CocActionAsync('jumpDefinition')<CR>
-" Alt-. fi to find implementations
-autocmd FileType javascript,vue nnoremap ≥fi :call CocActionAsync('jumpImplementation')<CR>
-autocmd FileType javascript,vue nnoremap .fi :call CocActionAsync('jumpImplementation')<CR>
-" Alt-. fu to find usages
-autocmd FileType javascript,vue nnoremap ≥fu :call CocActionAsync('jumpReferences')<CR>
-autocmd FileType javascript,vue nnoremap .fu :call CocActionAsync('jumpReferences')<CR>
-" Alt-. nm to rename
-autocmd FileType javascript,vue nnoremap ≥nm :call CocActionAsync('rename')<CR>
-autocmd FileType javascript,vue nnoremap .nm :call CocActionAsync('rename')<CR>
-" Alt-Shift-o to format
-autocmd FileType javascript,vue nnoremap Ø :CocCommand eslint.executeAutofix<CR>
-autocmd FileType javascript,vue nnoremap O :CocCommand eslint.executeAutofix<CR>
-" Alt-. cr to restart coc
-autocmd FileType javascript,vue nnoremap ≥cr :CocRestart<CR>
-autocmd FileType javascript,vue nnoremap .cr :CocRestart<CR>
+augroup csharp
+    autocmd!
+
+    " Show type information automatically when the cursor stops moving.
+    " Note that the type is echoed to the Vim command line, and will overwrite
+    " any other messages in this space including e.g. ALE linting messages.
+    autocmd CursorHold *.cs OmniSharpTypeLookup
+
+    " Ctrl-Space to open autocomplete while typing
+    autocmd FileType cs imap <c-@> <Plug>(asyncomplete_force_refresh)
+    " . to open autocomplete while typing
+    autocmd FileType cs imap . .<Plug>(asyncomplete_force_refresh)
+
+    " gd to go to definition
+    autocmd FileType cs nmap <silent> <buffer> gd <Plug>(omnisharp_go_to_definition)
+    " Alt-Shift-o to fix and sort usings and code format
+    autocmd FileType cs nnoremap O :OmniSharpCodeFormat<CR>mxggV}k:sort<CR>`xzz:OmniSharpFixUsings<CR>
+
+    " Alt-b to build
+    autocmd FileType cs nnoremap b :w<CR>:!dotnet build<CR>
+    " Alt-Shift-b to build
+    autocmd FileType cs nnoremap B :w<CR>:!dotnet build --no-incremental<CR>
+
+    " Alt-. Alt-. to open code actions
+    autocmd FileType cs nnoremap .. :OmniSharpGetCodeActions<CR>
+    " Alt+. + fu to find usages
+    autocmd FileType cs nmap .fu <Plug>(omnisharp_find_usages)
+    " Alt+. + fi to find usages
+    autocmd FileType cs nmap .fi <Plug>(omnisharp_find_implementations)
+    " Alt+. + pd to preview definition
+    autocmd FileType cs nmap .pd <Plug>(omnisharp_preview_definition)
+    " Alt+. + pi to preview implementations
+    autocmd FileType cs nmap .pi <Plug>(omnisharp_preview_implementations)
+    " Alt+. + fs to find symbols
+    autocmd FileType cs nmap .fs <Plug>(omnisharp_find_symbol)
+    " Alt+. + gcc to global code check
+    autocmd FileType cs nmap .gcc <Plug>(omnisharp_global_code_check)
+    " Alt+. + nm to rename
+    autocmd FileType cs nmap .nm <Plug>(omnisharp_rename)
+    " Alt+. + re to restart os server
+    autocmd FileType cs nmap .re <Plug>(omnisharp_restart_server)
+augroup END
+
+augroup javascript
+    autocmd!
+
+    " Alt-. Alt-. to open code actions
+    autocmd FileType javascript,vue nnoremap .. :CocAction<CR>
+    " gd to go to definition
+    autocmd FileType javascript,vue nnoremap gd :call CocActionAsync('jumpDefinition')<CR>
+    " Alt-. fi to find implementations
+    autocmd FileType javascript,vue nnoremap .fi :call CocActionAsync('jumpImplementation')<CR>
+    " Alt-. fu to find usages
+    autocmd FileType javascript,vue nnoremap .fu :call CocActionAsync('jumpReferences')<CR>
+    " Alt-. nm to rename
+    autocmd FileType javascript,vue nnoremap .nm :call CocActionAsync('rename')<CR>
+    " Alt-Shift-o to format
+    autocmd FileType javascript,vue nnoremap O :CocCommand eslint.executeAutofix<CR>
+    " Alt-. cr to restart coc
+    autocmd FileType javascript,vue nnoremap .cr :CocRestart<CR>
+augroup END
