@@ -339,7 +339,7 @@ nnoremap å ggVG
 nnoremap a ggVG
 " Alt-Shift-. to increase window width
 nnoremap ˘ <C-w>>
-" TODO nnoremap > <C-w>>
+nnoremap > <C-w>>
 " Alt-Shift-, to decrease window width
 nnoremap ¯ <C-w><
 nnoremap < <C-w><
@@ -383,7 +383,7 @@ nnoremap t :FZF<CR>
 " -------------
 " Alt-o to open find symbol in workspace
 nmap ø <Plug>(YCMFindSymbolInWorkspace)
-" TODO nmap o <Plug>(YCMFindSymbolInWorkspace)
+nmap o <Plug>(YCMFindSymbolInWorkspace)
 
 " Go
 " --
@@ -410,7 +410,7 @@ autocmd FileType cs nnoremap ≥≥ :OmniSharpGetCodeActions<CR>
 autocmd FileType cs nnoremap .. :OmniSharpGetCodeActions<CR>
 " Ctrl-Space to open autocomplete while typing
 autocmd FileType cs imap <c-@> <Plug>(asyncomplete_force_refresh)
-" TODO autocmd FileType cs imap <c-@> <Plug>(asyncomplete_force_refresh)
+autocmd FileType cs imap <c-@> <Plug>(asyncomplete_force_refresh)
 " . to open autocomplete while typing
 autocmd FileType cs imap . .<Plug>(asyncomplete_force_refresh)
 " Alt-b to build
