@@ -326,12 +326,14 @@ nnoremap H :bp<CR>
 " Alt-p to show yank-ring window
 nnoremap π :YRShow<CR>
 nnoremap p :YRShow<CR>
-" Alt-Shift-p to paste from clipboard
+" Alt-Shift-p to paste from clipboard (mac)
 noremap ∏ "+P
-noremap P  "+P
-" Alt-Shift-y to yank to clipboard
+" Alt-c to paste from clipboard (linux)
+noremap v  "+P
+" Alt-Shift-y to yank to clipboard (mac)
 noremap Á "+y
-noremap Y  "+y
+" Alt-v to yank to clipboard (linux)
+noremap c  "+y
 " Alt-a to select all text
 nnoremap å ggVG
 nnoremap a ggVG
