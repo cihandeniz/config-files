@@ -86,6 +86,7 @@ set splitright
 set splitbelow
 set foldcolumn=2
 set number
+set mouse=a
 
 " commands
 " --------
@@ -268,13 +269,18 @@ let g:OmniSharp_popup_options = {
 let g:OmniSharp_popup_mappings = {
 \ 'sigNext': '<C-n>',
 \ 'sigPrev': '<C-p>',
+\ 'lineDown': ['<C-e>', 'j'],
+\ 'lineUp': ['<C-y>', 'k'],
 \ 'pageDown': ['<C-f>', '<PageDown>'],
-\ 'pageUp': ['<C-b>', '<PageUp>']
+\ 'pageUp': ['<C-b>', '<PageUp>'],
+\ 'close': '<Esc>'
 \}
 let g:OmniSharp_want_snippet = 1
 let g:OmniSharp_highlight_groups = {
 \ 'ExcludedCode': 'NonText'
 \}
+let g:OmniSharp_selector_findusages = 'fzf'
+
 
 " vimspector
 " ----------
@@ -393,15 +399,10 @@ autocmd FileType go nnoremap r :w<CR>:GoBuild<CR>:GoRun<CR>
 " Alt-b to build
 autocmd FileType go nnoremap ∫ :w<CR>:GoBuild<CR>
 autocmd FileType go nnoremap b :w<CR>:GoBuild<CR>
-" Alt-c to comment
-autocmd FileType go nnoremap ç mc^i// <Esc>`clll
-autocmd FileType go nnoremap c mc^i// <Esc>`clll
-" Alt-Shift-c to uncomment
-autocmd FileType go nnoremap Ç mc^xxx`chhh
-autocmd FileType go nnoremap C mc^xxx`chhh
 
 " C#
 " --
+" Alt-.
 " Alt-Shift-o to fix and sort usings and code format
 autocmd FileType cs nnoremap Ø :OmniSharpCodeFormat<CR>mxggV}k:sort<CR>`xzz:OmniSharpFixUsings<CR>
 autocmd FileType cs nnoremap O :OmniSharpCodeFormat<CR>mxggV}k:sort<CR>`xzz:OmniSharpFixUsings<CR>
@@ -409,7 +410,6 @@ autocmd FileType cs nnoremap O :OmniSharpCodeFormat<CR>mxggV}k:sort<CR>`xzz:Omn
 autocmd FileType cs nnoremap ≥≥ :OmniSharpGetCodeActions<CR>
 autocmd FileType cs nnoremap .. :OmniSharpGetCodeActions<CR>
 " Ctrl-Space to open autocomplete while typing
-autocmd FileType cs imap <c-@> <Plug>(asyncomplete_force_refresh)
 autocmd FileType cs imap <c-@> <Plug>(asyncomplete_force_refresh)
 " . to open autocomplete while typing
 autocmd FileType cs imap . .<Plug>(asyncomplete_force_refresh)
@@ -419,12 +419,6 @@ autocmd FileType cs nnoremap b :w<CR>:!dotnet build<CR>
 " Alt-Shift-b to build
 autocmd FileType cs nnoremap ı :w<CR>:!dotnet build --no-incremental<CR>
 autocmd FileType cs nnoremap B :w<CR>:!dotnet build --no-incremental<CR>
-" Alt-c to comment
-autocmd FileType cs nnoremap ç mc^i// <Esc>`clll
-autocmd FileType cs nnoremap c mc^i// <Esc>`clll
-" Alt-Shift-c to uncomment
-autocmd FileType cs nnoremap Ç mc^xxx`chhh
-autocmd FileType cs nnoremap C mc^xxx`chhh
 
 " JS
 " --
@@ -448,9 +442,3 @@ autocmd FileType javascript,vue nnoremap O :CocCommand eslint.executeAutofix<CR
 " Alt-. cr to restart coc
 autocmd FileType javascript,vue nnoremap ≥cr :CocRestart<CR>
 autocmd FileType javascript,vue nnoremap .cr :CocRestart<CR>
-" Alt-c to comment
-autocmd FileType javascript,vue nnoremap ç mc^i// <Esc>`clll
-autocmd FileType javascript,vue nnoremap c mc^i// <Esc>`clll
-" Alt-Shift-c to uncomment
-autocmd FileType javascript,vue nnoremap Ç mc^xxx`chhh
-autocmd FileType javascript,vue nnoremap C mc^xxx`chhh
