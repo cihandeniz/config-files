@@ -328,10 +328,10 @@ nnoremap π :YRShow<CR>
 nnoremap p :YRShow<CR>
 " Alt-Shift-p to paste from clipboard
 noremap ∏ "+P
-" TODO noremap v  iAAAA<esc>
+noremap P  "+P
 " Alt-Shift-y to yank to clipboard
 noremap Á "+y
-" TODO noremap c  "+y
+noremap Y  "+y
 " Alt-a to select all text
 nnoremap å ggVG
 nnoremap a ggVG
