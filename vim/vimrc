@@ -157,9 +157,9 @@ let g:airline_powerline_fonts = 1
 
 " nerd tree
 " ---------
-" Start NERDTree. If a file is specified, move the cursor to its window.
+" Start NERDTree if no file is specified.
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in") | wincmd p | endif
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " Exit Vim if NERDTree is the only window remaining in the only tab.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
@@ -226,6 +226,8 @@ let g:sharpenup_codeactions_autocmd='CursorHold,CursorMoved'
 " ----------
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
+" :CocInstall coc-css coc-eslint coc-highlight coc-html coc-json coc-tsserver
+" coc-vetur
 
 " ALE
 " ---
@@ -281,12 +283,6 @@ let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
 " key mappings
 " ------------
 
-" Alt-t to open fuzzy search
-nnoremap † :FZF<CR>
-nnoremap t :FZF<CR>
-" Alt-o to open find symbol in workspace
-nmap ø <Plug>(YCMFindSymbolInWorkspace)
-" TODO nmap o <Plug>(YCMFindSymbolInWorkspace)
 " F8 to open/close tagbar
 nmap <F8> :TagbarToggle<CR>
 " Shift-k to insert next line (opposite of Shift-j)
@@ -332,10 +328,10 @@ nnoremap π :YRShow<CR>
 nnoremap p :YRShow<CR>
 " Alt-Shift-p to paste from clipboard
 noremap ∏ "+P
-" TODO noremap P "+P
+" TODO noremap v  iAAAA<esc>
 " Alt-Shift-y to yank to clipboard
 noremap Á "+y
-" TODO noremap Y "+y
+" TODO noremap c  "+y
 " Alt-a to select all text
 nnoremap å ggVG
 nnoremap a ggVG
@@ -348,6 +344,8 @@ nnoremap < <C-w><
 " Alt-r to run
 nnoremap ® :w<CR>:RunThis<CR>
 nnoremap r :w<CR>:RunThis<CR>
+" Alt-x to replace with x
+nnoremap x rx
 
 " Fugitive
 " --------
@@ -372,6 +370,18 @@ nnoremap <silent> gr :Gundo<CR>
 " Alt-f to sync file in nerd tree
 nnoremap ƒ :NERDTreeFind<CR><C-W>l
 nnoremap f :NERDTreeFind<CR><C-W>l
+
+" FZF
+" ---
+" Alt-t to open fuzzy search
+nnoremap † :FZF<CR>
+nnoremap t :FZF<CR>
+
+" YouCompleteMe
+" -------------
+" Alt-o to open find symbol in workspace
+nmap ø <Plug>(YCMFindSymbolInWorkspace)
+" TODO nmap o <Plug>(YCMFindSymbolInWorkspace)
 
 " Go
 " --
