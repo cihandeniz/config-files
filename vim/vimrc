@@ -92,12 +92,24 @@ set mouse=a
 " --------
 
 " deletes current buffer and moves to previous
+" and respects terminal buffers while doing that
 command CloseThis
-  \ if winnr('$') > 2 |
+  \ if &filetype == 'nerdtree' |
+    \ wincmd l |
+  \ endif |
+  \ if winnr('$') > t:terminalcount + 2 |
     \ close |
-  \ else |
+  \ elseif expand('%') != '' |
     \ let curbuf=bufnr() |
-    \ bp |
+    \ let b_num = len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) |
+    \ if b_num == t:terminalcount + 1 |
+      \ enew |
+    \ else |
+      \ bp |
+      \ if &buftype == 'terminal' |
+        \ bp |
+      \ endif |
+    \ endif |
     \ execute 'bd '.curbuf |
   \ endif
 " git checkout this file to HEAD
@@ -120,6 +132,7 @@ command RunThis
     \ echo 'run.sh found, running!' |
     \ execute 'terminal ./run.sh' |
   \ else |
+    \ echo 'no run.sh!' |
   \ endif
 
 " auto commands
@@ -134,6 +147,12 @@ augroup vimrcEx
   au!
   autocmd FileType text setlocal textwidth=80
 augroup END
+
+" count terminals
+" ---------------
+let t:terminalcount = 0
+autocmd TerminalWinOpen * let t:terminalcount += 1 |
+autocmd BufDelete * if &buftype == 'terminal' | if t:terminalcount > 0 | let t:terminalcount -= 1 | endif | endif
 
 " themes
 " -------
@@ -307,16 +326,24 @@ nnoremap q :qa<CR>
 nnoremap s :w<CR>
 " Alt-l to move cursor to right window
 nnoremap l <C-W>l
+tnoremap l <C-W>l
 " Alt-h to move cursor to left window
 nnoremap h <C-W>h
+tnoremap h <C-W>h
 " Alt-j to move cursor to below window
 nnoremap j <C-W>j
+tnoremap j <C-W>j
 " Alt-k to move cursor to above window
 nnoremap k <C-W>k
+tnoremap k <C-W>k
 " Alt-Shift-l to move to next buffer
 nnoremap L :bn<CR>
+tnoremap L <C-w>:bn<CR>
 " Alt-Shift-h to move to previous buffer
 nnoremap H :bp<CR>
+tnoremap H <C-w>:bp<CR>
+" Alt-n to switch to normal buffer in a terminal
+tnoremap n <C-w>:enew<CR>
 " Alt-p to show yank-ring window
 nnoremap p :YRShow<CR>
 " Alt-c to paste from clipboard (linux)
