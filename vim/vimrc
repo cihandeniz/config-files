@@ -5,14 +5,16 @@ call plug#begin('~/.vim/plugged')
 " theme
 Plug 'morhetz/gruvbox'
 Plug 'danilo-augusto/vim-afterglow'
+" camel case motion
+Plug 'chaoren/vim-wordmotion'
 " yanks to multiple registers and allows to paste from a list
 Plug 'vim-scripts/YankRing.vim'
-" folder tree on left
-Plug 'preservim/nerdtree'
 " buffers as tabs
 Plug 'ap/vim-buftabline'
 " close buffers in a smarter way
 Plug 'Asheq/close-buffers.vim'
+" folder tree on left
+Plug 'preservim/nerdtree'
 " shows symbols according to git status in the tree
 Plug 'Xuyuanp/nerdtree-git-plugin'
 " highlight files and folders according to their types
@@ -156,7 +158,8 @@ autocmd BufDelete * if &buftype == 'terminal' | if t:terminalcount > 0 | let t:t
 
 " themes
 " -------
-colorscheme gruvbox
+" colorscheme gruvbox
+colorscheme afterglow
 set bg=dark
 
 " uncomment below to have different theme for different modes
@@ -314,6 +317,7 @@ nmap <F8> :TagbarToggle<CR>
 nnoremap K i<CR><Esc>l
 " Alt-;
 imap ; <End>;
+nmap ; A;<Esc>
 " Alt-, to open ~/.vimrc
 nnoremap , :e ~/.vimrc<CR>
 " Alt-w to close
@@ -341,6 +345,10 @@ nnoremap L :bn<CR>
 tnoremap L <C-w>:bn<CR>
 " Alt-Shift-h to move to previous buffer
 nnoremap H :bp<CR>
+" Alt-Shift-j to move line down
+nnoremap J ddp
+" Alt-Shift-k to move line up
+nnoremap K ddkkp
 tnoremap H <C-w>:bp<CR>
 " Alt-n to switch to normal buffer in a terminal
 tnoremap n <C-w>:enew<CR>
@@ -456,6 +464,7 @@ augroup javascript
     autocmd FileType javascript,vue nnoremap .nm :call CocActionAsync('rename')<CR>
     " Alt-Shift-o to format
     autocmd FileType javascript,vue nnoremap O :CocCommand eslint.executeAutofix<CR>
+    autocmd FileType json nnoremap O :%!python -m json.tool<CR>
     " Alt-. cr to restart coc
     autocmd FileType javascript,vue nnoremap .cr :CocRestart<CR>
 augroup END
