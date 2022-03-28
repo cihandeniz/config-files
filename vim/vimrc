@@ -5,8 +5,7 @@ call plug#begin('~/.vim/plugged')
 " theme
 Plug 'morhetz/gruvbox'
 Plug 'danilo-augusto/vim-afterglow'
-" camel case motion
-Plug 'chaoren/vim-wordmotion'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
 " yanks to multiple registers and allows to paste from a list
 Plug 'vim-scripts/YankRing.vim'
 " buffers as tabs
@@ -86,6 +85,8 @@ set history=1000
 set wildmenu
 set splitright
 set splitbelow
+set foldmethod=syntax
+set foldlevelstart=10
 set foldcolumn=2
 set number
 set mouse=a
@@ -95,13 +96,11 @@ set mouse=a
 
 " deletes current buffer and moves to previous
 " and respects terminal buffers while doing that
-command CloseThis
+command DeleteCurrentBuffer
   \ if &filetype == 'nerdtree' |
     \ wincmd l |
   \ endif |
-  \ if winnr('$') > t:terminalcount + 2 |
-    \ close |
-  \ elseif expand('%') != '' |
+  \ if expand('%') != '' |
     \ let curbuf=bufnr() |
     \ let b_num = len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) |
     \ if b_num == t:terminalcount + 1 |
@@ -128,13 +127,56 @@ command Gcommit
     \ echo system('git add -A') |
     \ echo system('git commit -m '''.message.''' ') |
   \ endif
-" run if run.sh exists
+" run if Makefile or run.sh exists
 command RunThis
-  \ if filereadable('run.sh') |
+  \ if expand('%') |
+    \ write |
+  \ endif |
+  \ if filereadable('Makefile') |
+    \ echo 'Makefile found, running' |
+    \ execute 'terminal make run' |
+  \ elseif filereadable('run.sh') |
     \ echo 'run.sh found, running!' |
     \ execute 'terminal ./run.sh' |
   \ else |
     \ echo 'no run.sh!' |
+  \ endif
+" build if Makefile or build.sh exists
+command BuildThisSilent
+  \ if expand('%') |
+    \ write |
+  \ endif |
+  \ if filereadable('Makefile') |
+    \ silent echo system('make build') |
+  \ elseif filereadable('build.sh') |
+    \ silent echo system('./build.sh') |
+  \ endif
+command BuildThis
+  \ if expand('%') |
+    \ write |
+  \ endif |
+  \ if filereadable('Makefile') |
+    \ echo 'Makefile found, building' |
+    \ execute '!make build' |
+  \ elseif filereadable('build.sh') |
+    \ echo 'build.sh found, building!' |
+    \ execute '!./build.sh' |
+  \ else |
+    \ echo 'no Makefile or build.sh!' |
+  \ endif
+" build if Makefile or test.sh exists
+command TestThis
+  \ if expand('%') |
+    \ write |
+  \ endif |
+  \ if filereadable('Makefile') |
+    \ echo 'Makefile found, testing' |
+    \ execute '!make test' |
+  \ elseif filereadable('test.sh') |
+    \ echo 'test.sh found, testing!' |
+    \ execute '!/test.sh' |
+  \ else |
+    \ echo 'no Makefile or test.sh!' |
   \ endif
 
 " auto commands
@@ -150,6 +192,12 @@ augroup vimrcEx
   autocmd FileType text setlocal textwidth=80
 augroup END
 
+" switch to us in normal mode
+command SetUsLayout echo system('setxkbmap us')
+
+autocmd VimEnter * SetUsLayout
+autocmd InsertLeave,CmdlineLeave * SetUsLayout
+
 " count terminals
 " ---------------
 let t:terminalcount = 0
@@ -159,7 +207,8 @@ autocmd BufDelete * if &buftype == 'terminal' | if t:terminalcount > 0 | let t:t
 " themes
 " -------
 " colorscheme gruvbox
-colorscheme afterglow
+" colorscheme afterglow
+colorscheme onehalfdark
 set bg=dark
 
 " uncomment below to have different theme for different modes
@@ -170,11 +219,13 @@ set bg=dark
 " cursors
 " -------
 let &t_SI = "\e[5 q" " blinking bar for insert mode
+let &t_SR = "\e[1 q" " blinking block for replace mode
 let &t_EI = "\e[4 q" " steady underline for normal mode
 
 " air-line
 " --------
-let g:airline_theme='distinguished'
+" let g:airline_theme='distinguished'
+let g:airline_theme='onehalfdark'
 let g:airline#extensions#tabline#enabled = 0
 let g:airline_powerline_fonts = 1
 
@@ -259,6 +310,7 @@ let g:ale_sign_warning = '•'
 let g:ale_sign_info = '·'
 let g:ale_sign_style_error = '·'
 let g:ale_sign_style_warning = '·'
+highlight ALEError ctermbg=DarkRed cterm=underline ctermfg=LightGray
 let g:ale_linters = { 'cs': ['OmniSharp'] }
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -303,7 +355,6 @@ let g:OmniSharp_highlight_groups = {
 \}
 let g:OmniSharp_selector_findusages = 'fzf'
 
-
 " vimspector
 " ----------
 let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
@@ -320,12 +371,14 @@ imap ; <End>;
 nmap ; A;<Esc>
 " Alt-, to open ~/.vimrc
 nnoremap , :e ~/.vimrc<CR>
-" Alt-w to close
-nnoremap w :CloseThis<CR>
-" Alt-Shift-w to close
+" Alt-w to delete current buffer
+nnoremap w :DeleteCurrentBuffer<CR>
+" Alt-Shift-w to delete all buffers except open
 nnoremap W :Bdelete hidden<CR>
-" Alt-q to quit
-nnoremap q :qa<CR>
+" Alt-q Alt-w to close window
+nnoremap qw :close<CR>
+" Alt-q Alt-q to quit
+nnoremap qq :qa<CR>
 " Alt-s to save (write)
 nnoremap s :w<CR>
 " Alt-l to move cursor to right window
@@ -364,8 +417,12 @@ nnoremap a ggVG
 nnoremap > <C-w>>
 " Alt-Shift-, to decrease window width
 nnoremap < <C-w><
-" Alt-r to run
-nnoremap r :w<CR>:RunThis<CR>
+" Alt-r Alt-r to run
+nnoremap rr :RunThis<CR>
+" Alt-b to build
+nnoremap b :BuildThis<CR>
+" Alt-r Alt-t to test
+nnoremap ra :TestThis<CR>
 " Alt-x to replace with x
 nnoremap x rx
 
@@ -409,6 +466,9 @@ augroup END
 augroup csharp
     autocmd!
 
+    " Fold regions
+    autocmd FileType cs set foldlevelstart=0
+
     " Show type information automatically when the cursor stops moving.
     " Note that the type is echoed to the Vim command line, and will overwrite
     " any other messages in this space including e.g. ALE linting messages.
@@ -422,15 +482,14 @@ augroup csharp
     " gd to go to definition
     autocmd FileType cs nmap <silent> <buffer> gd <Plug>(omnisharp_go_to_definition)
     " Alt-Shift-o to fix and sort usings and code format
-    autocmd FileType cs nnoremap O :OmniSharpCodeFormat<CR>mxggV}k:sort<CR>`xzz:OmniSharpFixUsings<CR>
-
-    " Alt-b to build
-    autocmd FileType cs nnoremap b :w<CR>:!dotnet build<CR>
-    " Alt-Shift-b to build
-    autocmd FileType cs nnoremap B :w<CR>:!dotnet build --no-incremental<CR>
+    autocmd FileType cs silent nnoremap O :OmniSharpCodeFormat<CR>mxggV}k:sort<CR>`xzz:OmniSharpFixUsings<CR>
 
     " Alt-. Alt-. to open code actions
     autocmd FileType cs nnoremap .. :OmniSharpGetCodeActions<CR>
+    " Alt-r Alt-t to run current test
+    autocmd FileType cs nnoremap rt :BuildThisSilent<CR>:OmniSharpRunTest<CR>
+    " Alt-r Alt-t to run current test
+    autocmd FileType cs nnoremap rt :BuildThisSilent<CR>:OmniSharpRunTestsInFile<CR>
     " Alt+. + fu to find usages
     autocmd FileType cs nmap .fu <Plug>(omnisharp_find_usages)
     " Alt+. + fi to find usages
