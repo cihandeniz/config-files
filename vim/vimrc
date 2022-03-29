@@ -137,7 +137,7 @@ command RunThis
     \ execute 'terminal make run' |
   \ elseif filereadable('run.sh') |
     \ echo 'run.sh found, running!' |
-    \ execute 'terminal ./run.sh' |
+    \ execute 'terminal sh run.sh' |
   \ else |
     \ echo 'no run.sh!' |
   \ endif
@@ -149,7 +149,7 @@ command BuildThisSilent
   \ if filereadable('Makefile') |
     \ silent echo system('make build') |
   \ elseif filereadable('build.sh') |
-    \ silent echo system('./build.sh') |
+    \ silent echo system('sh build.sh') |
   \ endif
 command BuildThis
   \ if expand('%') |
@@ -160,7 +160,7 @@ command BuildThis
     \ execute '!make build' |
   \ elseif filereadable('build.sh') |
     \ echo 'build.sh found, building!' |
-    \ execute '!./build.sh' |
+    \ execute '!sh build.sh' |
   \ else |
     \ echo 'no Makefile or build.sh!' |
   \ endif
@@ -174,7 +174,7 @@ command TestThis
     \ execute '!make test' |
   \ elseif filereadable('test.sh') |
     \ echo 'test.sh found, testing!' |
-    \ execute '!/test.sh' |
+    \ execute '!sh test.sh' |
   \ else |
     \ echo 'no Makefile or test.sh!' |
   \ endif
@@ -221,11 +221,16 @@ set bg=dark
 let &t_SI = "\e[5 q" " blinking bar for insert mode
 let &t_SR = "\e[1 q" " blinking block for replace mode
 let &t_EI = "\e[4 q" " steady underline for normal mode
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter,InsertLeave * setlocal cursorline cursorcolumn
+  au WinLeave,InsertEnter * setlocal nocursorline nocursorcolumn
+augroup END
 
 " air-line
 " --------
-" let g:airline_theme='distinguished'
-let g:airline_theme='onehalfdark'
+let g:airline_theme='distinguished'
+" let g:airline_theme='onehalfdark'
 let g:airline#extensions#tabline#enabled = 0
 let g:airline_powerline_fonts = 1
 
@@ -251,7 +256,7 @@ autocmd BufWinEnter * if getcmdwintype() == '' && getbufvar('%', '&buftype', 'ER
 let g:NERDTreeGitStatusUseNerdFonts = 2 " you should install nerdfonts by yourself. default: 0
 let g:NERDTreeWinSize = 40
 let g:NERDTreeMinimalUI = 1
-let g:NERDTreeIgnore = ['.DS_Store', '^.git$', '^node_modules$', '^bin$', '^obj$', '^tags$']
+let g:NERDTreeIgnore = ['.DS_Store', '^.git$', '^node_modules$', '^bin$', '^obj$', '^tags$', '^packages$']
 
 " webdevicons
 " -----------
@@ -310,7 +315,7 @@ let g:ale_sign_warning = '•'
 let g:ale_sign_info = '·'
 let g:ale_sign_style_error = '·'
 let g:ale_sign_style_warning = '·'
-highlight ALEError ctermbg=DarkRed cterm=underline ctermfg=LightGray
+highlight ALEError ctermbg=DarkRed ctermfg=LightGray
 let g:ale_linters = { 'cs': ['OmniSharp'] }
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -482,7 +487,7 @@ augroup csharp
     " gd to go to definition
     autocmd FileType cs nmap <silent> <buffer> gd <Plug>(omnisharp_go_to_definition)
     " Alt-Shift-o to fix and sort usings and code format
-    autocmd FileType cs silent nnoremap O :OmniSharpCodeFormat<CR>mxggV}k:sort<CR>`xzz:OmniSharpFixUsings<CR>
+    autocmd FileType cs silent nnoremap O :OmniSharpCodeFormat<CR>:OmniSharpFixUsings<CR>
 
     " Alt-. Alt-. to open code actions
     autocmd FileType cs nnoremap .. :OmniSharpGetCodeActions<CR>
@@ -510,6 +515,9 @@ augroup END
 
 augroup javascript
     autocmd!
+
+    " Fold regions
+    autocmd FileType javascript,vue,json set foldlevelstart=10
 
     " Alt-. Alt-. to open code actions
     autocmd FileType javascript,vue nnoremap .. :CocAction<CR>
