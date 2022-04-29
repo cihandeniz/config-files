@@ -6,6 +6,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
 Plug 'danilo-augusto/vim-afterglow'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'srcery-colors/srcery-vim'
 " yanks to multiple registers and allows to paste from a list
 Plug 'vim-scripts/YankRing.vim'
 " buffers as tabs
@@ -40,31 +41,29 @@ Plug 'djoshea/vim-autoread'
 " debugging
 Plug 'puremourning/vimspector'
 " go support
-Plug 'fatih/vim-go', { 'tag': '*' }
+Plug 'fatih/vim-go', { 'tag': '*', 'for': 'go' }
 " c# support
-Plug 'OmniSharp/omnisharp-vim'
-Plug 'OrangeT/vim-csharp'
+Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs' }
+Plug 'OrangeT/vim-csharp', { 'for': 'cs' }
 " Mappings, code-actions available flag and statusline integration
-Plug 'nickspoons/vim-sharpenup'
+Plug 'nickspoons/vim-sharpenup', { 'for': 'cs' }
 " js support
-Plug 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 " ts support
-Plug 'leafgarland/typescript-vim'
+Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
 " react support
-Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'peitalin/vim-jsx-typescript'
+Plug 'MaxMEllon/vim-jsx-pretty', { 'for': [ 'jsx', 'javascript' ] }
+Plug 'peitalin/vim-jsx-typescript', { 'for': [ 'tsx', 'typescript' ] }
 " Linting/error highlighting
 Plug 'dense-analysis/ale'
 " Autocompletion
-Plug 'prabirshrestha/asyncomplete.vim'
-" Code completion
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" code autocomplete
-" Plug 'ycm-core/YouCompleteMe'
-" code snippet too
+Plug 'prabirshrestha/asyncomplete.vim', { 'for': 'cs' }
+Plug 'neoclide/coc.nvim', { 'branch': 'release', 'for': ['javascript', 'vue', 'json'] }
+Plug 'ycm-core/YouCompleteMe', { 'for': 'go' }
+" code snippet
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+Plug 'prabirshrestha/asyncomplete-ultisnips.vim', { 'for': 'cs' }
 " closes all types of quotes and brackets automatically
 Plug 'gosukiwi/vim-smartpairs'
 " enables beautiful file icons in nerd tree
@@ -85,11 +84,13 @@ set history=1000
 set wildmenu
 set splitright
 set splitbelow
+set number
+set mouse=a
+
+" Folding
 set foldmethod=syntax
 set foldlevelstart=10
 set foldcolumn=2
-set number
-set mouse=a
 
 " commands
 " --------
@@ -129,52 +130,46 @@ command Gcommit
   \ endif
 " run if Makefile or run.sh exists
 command RunThis
-  \ if expand('%') |
-    \ write |
-  \ endif |
+  \ if &filetype == 'nerdtree' | execute "normal! \<C-W>l" | endif |
+  \ if len(expand('%')) > 0 | write | endif |
   \ if filereadable('Makefile') |
     \ echo 'Makefile found, running' |
     \ execute 'terminal make run' |
   \ elseif filereadable('run.sh') |
     \ echo 'run.sh found, running!' |
     \ execute 'terminal sh run.sh' |
-  \ else |
-    \ echo 'no run.sh!' |
-  \ endif
+  \ else | echo 'no run.sh!' | endif
 " build if Makefile or build.sh exists
 command BuildThisSilent
-  \ if expand('%') |
-    \ write |
-  \ endif |
-  \ if filereadable('Makefile') |
-    \ silent echo system('make build') |
-  \ elseif filereadable('build.sh') |
+  \ if &filetype == 'nerdtree' | execute "normal! \<C-W>l" | endif |
+  \ if len(expand('%')) > 0 | write | endif |
+  \ if filereadable('build.sh') |
     \ silent echo system('sh build.sh') |
+  \ elseif filereadable('Makefile') |
+    \ silent echo system('make build') |
   \ endif
 command BuildThis
-  \ if expand('%') |
-    \ write |
-  \ endif |
-  \ if filereadable('Makefile') |
-    \ echo 'Makefile found, building' |
-    \ execute '!make build' |
-  \ elseif filereadable('build.sh') |
+  \ if &filetype == 'nerdtree' | execute "normal! \<C-W>l" | endif |
+  \ if len(expand('%')) > 0 | write | endif |
+  \ if filereadable('build.sh') |
     \ echo 'build.sh found, building!' |
     \ execute '!sh build.sh' |
+  \ elseif filereadable('Makefile') |
+    \ echo 'Makefile found, building' |
+    \ execute '!make build' |
   \ else |
     \ echo 'no Makefile or build.sh!' |
   \ endif
 " build if Makefile or test.sh exists
 command TestThis
-  \ if expand('%') |
-    \ write |
-  \ endif |
-  \ if filereadable('Makefile') |
-    \ echo 'Makefile found, testing' |
-    \ execute '!make test' |
-  \ elseif filereadable('test.sh') |
+  \ if &filetype == 'nerdtree' | execute "normal! \<C-W>l" | endif |
+  \ if len(expand('%')) > 0 | write | endif |
+  \ if filereadable('test.sh') |
     \ echo 'test.sh found, testing!' |
     \ execute '!sh test.sh' |
+  \ elseif filereadable('Makefile') |
+    \ echo 'Makefile found, testing' |
+    \ execute '!make test' |
   \ else |
     \ echo 'no Makefile or test.sh!' |
   \ endif
@@ -208,7 +203,8 @@ autocmd BufDelete * if &buftype == 'terminal' | if t:terminalcount > 0 | let t:t
 " -------
 " colorscheme gruvbox
 " colorscheme afterglow
-colorscheme onehalfdark
+" colorscheme onehalfdark
+colorscheme srcery
 set bg=dark
 
 " uncomment below to have different theme for different modes
@@ -229,8 +225,9 @@ augroup END
 
 " air-line
 " --------
-let g:airline_theme='distinguished'
+" let g:airline_theme='distinguished'
 " let g:airline_theme='onehalfdark'
+let g:airline_theme='srcery'
 let g:airline#extensions#tabline#enabled = 0
 let g:airline_powerline_fonts = 1
 
@@ -256,7 +253,7 @@ autocmd BufWinEnter * if getcmdwintype() == '' && getbufvar('%', '&buftype', 'ER
 let g:NERDTreeGitStatusUseNerdFonts = 2 " you should install nerdfonts by yourself. default: 0
 let g:NERDTreeWinSize = 40
 let g:NERDTreeMinimalUI = 1
-let g:NERDTreeIgnore = ['.DS_Store', '^.git$', '^node_modules$', '^bin$', '^obj$', '^tags$', '^packages$']
+let g:NERDTreeIgnore = ['.DS_Store', '^.git$', '^node_modules$', '^bin$', '^obj$', '^tags$', '^packages$', '^logs$', '^[.].*[.]swp$', '^dist$']
 
 " webdevicons
 " -----------
@@ -305,8 +302,8 @@ let g:sharpenup_codeactions_autocmd='CursorHold,CursorMoved'
 " ----------
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
-" :CocInstall coc-css coc-eslint coc-highlight coc-html coc-json coc-tsserver
-" coc-vetur
+" Install coc plugins using below line
+" :CocInstall coc-css coc-eslint coc-highlight coc-html coc-json coc-tsserver coc-vetur
 
 " ALE
 " ---
@@ -328,14 +325,9 @@ let g:ale_fix_on_save = 1
 " ------------
 let g:asyncomplete_auto_popup = 0
 let g:asyncomplete_auto_completeopt = 0
-set completeopt=menuone,noinsert,noselect,preview
+set completeopt=menuone,noinsert,noselect,popup
 set completepopup=highlight:Pmenu,border:off
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-\ 'name': 'ultisnips',
-\ 'allowlist': ['*'],
-\ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-\ }))
 
 " OmniSharp
 " ---------
@@ -430,6 +422,10 @@ nnoremap b :BuildThis<CR>
 nnoremap ra :TestThis<CR>
 " Alt-x to replace with x
 nnoremap x rx
+" ]l to move to next error
+nnoremap ]l :lnext<CR>
+" [l to move to previous error
+nnoremap [l :lprevious<CR>
 
 " Fugitive
 " --------
@@ -471,6 +467,12 @@ augroup END
 augroup csharp
     autocmd!
 
+    autocmd FileType cs
+        \ call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+        \ 'name': 'ultisnips',
+        \ 'allowlist': ['*'],
+        \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+        \ }))
     " Fold regions
     autocmd FileType cs set foldlevelstart=0
 
