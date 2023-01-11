@@ -1,4 +1,6 @@
-source $VIMRUNTIME/defaults.vim
+if !has('nvim')
+    source $VIMRUNTIME/defaults.vim
+endif
 
 call plug#begin('~/.vim/plugged')
 
@@ -86,6 +88,7 @@ set splitright
 set splitbelow
 set number
 set mouse=a
+set updatetime=750
 
 " Folding
 set foldmethod=syntax
@@ -188,16 +191,18 @@ augroup vimrcEx
 augroup END
 
 " switch to us in normal mode
-command SetUsLayout echo system('setxkbmap us')
+" command SetUsLayout echo system('setxkbmap us')
 
-autocmd VimEnter * SetUsLayout
-autocmd InsertLeave,CmdlineLeave * SetUsLayout
+" autocmd VimEnter * SetUsLayout
+" autocmd InsertLeave,CmdlineLeave * SetUsLayout
 
 " count terminals
 " ---------------
-let t:terminalcount = 0
-autocmd TerminalWinOpen * let t:terminalcount += 1 |
-autocmd BufDelete * if &buftype == 'terminal' | if t:terminalcount > 0 | let t:terminalcount -= 1 | endif | endif
+if !has('nvim')
+    let t:terminalcount = 0
+    autocmd TerminalWinOpen * let t:terminalcount += 1 |
+    autocmd BufDelete * if &buftype == 'terminal' | if t:terminalcount > 0 | let t:terminalcount -= 1 | endif | endif
+endif
 
 " themes
 " -------
@@ -206,11 +211,6 @@ autocmd BufDelete * if &buftype == 'terminal' | if t:terminalcount > 0 | let t:t
 " colorscheme onehalfdark
 colorscheme srcery
 set bg=dark
-
-" uncomment below to have different theme for different modes
-" ---------
-" autocmd InsertEnter * colorscheme afterglow | set bg=dark
-" autocmd InsertLeave * colorscheme gruvbox | set bg=dark
 
 " cursors
 " -------
@@ -325,8 +325,10 @@ let g:ale_fix_on_save = 1
 " ------------
 let g:asyncomplete_auto_popup = 0
 let g:asyncomplete_auto_completeopt = 0
-set completeopt=menuone,noinsert,noselect,popup
-set completepopup=highlight:Pmenu,border:off
+if !has('nvim')
+    set completeopt=menuone,noinsert,noselect,popup
+    set completepopup=highlight:Pmenu,border:off
+endif
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " OmniSharp
@@ -418,8 +420,8 @@ nnoremap < <C-w><
 nnoremap rr :RunThis<CR>
 " Alt-b to build
 nnoremap b :BuildThis<CR>
-" Alt-r Alt-t to test
-nnoremap ra :TestThis<CR>
+" Alt-r t to test
+nnoremap ra :TestThis<CR>
 " Alt-x to replace with x
 nnoremap x rx
 " ]l to move to next error
@@ -435,6 +437,8 @@ nnoremap gs :G status<CR>
 nnoremap gc :Gcommit<CR>
 " Alt-g Alt-p to git push
 nnoremap gp :G push<CR>
+" Alt-g Alt-P to git pull
+nnoremap gP :G pull<CR>
 " Alt-g Alt-d to git diff
 nnoremap gd :Gdiff!<CR>
 " Alt-g Alt-r to git checkout current file to head
@@ -494,9 +498,13 @@ augroup csharp
     " Alt-. Alt-. to open code actions
     autocmd FileType cs nnoremap .. :OmniSharpGetCodeActions<CR>
     " Alt-r Alt-t to run current test
-    autocmd FileType cs nnoremap rt :BuildThisSilent<CR>:OmniSharpRunTest<CR>
-    " Alt-r Alt-t to run current test
-    autocmd FileType cs nnoremap rt :BuildThisSilent<CR>:OmniSharpRunTestsInFile<CR>
+    autocmd FileType cs nnoremap rt :OmniSharpRunTest<CR>
+    " Alt-r t to run tests in file
+    autocmd FileType cs nnoremap rt :OmniSharpRunTestsInFile<CR>
+    " Alt-r Alt-T to build and run current test
+    " autocmd FileType cs nnoremap rT :BuildThisSilent<CR>:OmniSharpRunTest<CR>
+    " Alt-r T to build and run tests in file
+    " autocmd FileType cs nnoremap rT :BuildThisSilent<CR>:OmniSharpRunTestsInFile<CR>
     " Alt+. + fu to find usages
     autocmd FileType cs nmap .fu <Plug>(omnisharp_find_usages)
     " Alt+. + fi to find usages
@@ -519,7 +527,7 @@ augroup javascript
     autocmd!
 
     " Fold regions
-    autocmd FileType javascript,vue,json set foldlevelstart=10
+    autocmd FileType javascript,vue,json set foldlevelstart=20
 
     " Alt-. Alt-. to open code actions
     autocmd FileType javascript,vue nnoremap .. :CocAction<CR>
