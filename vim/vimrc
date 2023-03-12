@@ -315,6 +315,7 @@ let g:ale_sign_style_warning = '·'
 highlight ALEError ctermbg=DarkRed ctermfg=LightGray
 let g:ale_linters = { 'cs': ['OmniSharp'] }
 let g:ale_fixers = {
+\  'javascript': ['eslint'],
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \}
 let g:ale_linters_explicit = 1
