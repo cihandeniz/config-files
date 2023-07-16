@@ -6,9 +6,6 @@ call plug#begin('~/.vim/plugged')
 
 " theme
 Plug 'morhetz/gruvbox'
-Plug 'danilo-augusto/vim-afterglow'
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
-Plug 'srcery-colors/srcery-vim'
 " yanks to multiple registers and allows to paste from a list
 Plug 'vim-scripts/YankRing.vim'
 " buffers as tabs
@@ -25,8 +22,6 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'vim-airline/vim-airline'
 " themes for status bar
 Plug 'vim-airline/vim-airline-themes'
-" highlight other uses of current word
-Plug 'RRethy/vim-illuminate'
 " file search plugin
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -36,8 +31,6 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'tpope/vim-fugitive'
 " shows added and modified lines within a file according to git status
 Plug 'airblade/vim-gitgutter'
-" shows tags on the right for quick jump
-Plug 'preservim/tagbar'
 " reloads files automatically when they are changed outside vim
 Plug 'djoshea/vim-autoread'
 " debugging
@@ -61,7 +54,6 @@ Plug 'dense-analysis/ale'
 " Autocompletion
 Plug 'prabirshrestha/asyncomplete.vim', { 'for': 'cs' }
 Plug 'neoclide/coc.nvim', { 'branch': 'release', 'for': ['javascript', 'vue', 'json'] }
-Plug 'ycm-core/YouCompleteMe', { 'for': 'go' }
 " code snippet
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -218,11 +210,9 @@ endif
 " themes
 " -------
 colorscheme gruvbox
-" colorscheme afterglow
-" colorscheme onehalfdark
-" colorscheme srcery
 set bg=dark
 let g:gruvbox_contrast_dark = 'hard'
+syntax on
 
 " cursors
 " -------
@@ -237,8 +227,6 @@ augroup END
 
 " air-line
 " --------
-" let g:airline_theme='distinguished'
-" let g:airline_theme='onehalfdark'
 let g:airline_theme='srcery'
 let g:airline#extensions#tabline#enabled = 0
 let g:airline_powerline_fonts = 1
@@ -289,12 +277,6 @@ endif
 let g:better_whitespace_enabled=1
 let g:strip_whitespace_on_save=1
 let g:strip_whitespace_confirm=0
-
-" vim go
-" ------
-let g:go_highlight_function_calls = 1
-let g:go_fmt_autosave = 1
-syntax on
 
 " ulti snips
 " ----------
@@ -472,20 +454,6 @@ nnoremap f :NERDTreeFind<CR><C-W>l
 nnoremap t :FZF<CR>
 " Alt-t Alt-t to open fuzzy search through fugitive
 nnoremap tt :GF<CR>
-
-" YouCompleteMe
-" -------------
-" Alt-o to open find symbol in workspace
-nmap o <Plug>(YCMFindSymbolInWorkspace)
-
-augroup go
-    autocmd!
-
-    " Alt-r to run
-    autocmd FileType go nnoremap r :w<CR>:GoBuild<CR>:GoRun<CR>
-    " Alt-b to build
-    autocmd FileType go nnoremap b :w<CR>:GoBuild<CR>
-augroup END
 
 augroup csharp
     autocmd!
