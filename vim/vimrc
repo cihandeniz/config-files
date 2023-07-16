@@ -142,6 +142,17 @@ command RunThis
     \ echo 'run.sh found, running!' |
     \ execute 'terminal sh run.sh' |
   \ else | echo 'no run.sh!' | endif
+" push if Makefile or push.sh exists
+command PushThis
+  \ if &filetype == 'nerdtree' | execute "normal! \<C-W>l" | endif |
+  \ if len(expand('%')) > 0 | write | endif |
+  \ if filereadable('Makefile') |
+    \ echo 'Makefile found, pushing' |
+    \ execute '!make push' |
+  \ elseif filereadable('push.sh') |
+    \ echo 'push.sh found, pushing!' |
+    \ execute '!sh push.sh' |
+  \ else | echo 'no push.sh!' | endif
 " build if Makefile or build.sh exists
 command BuildThisSilent
   \ if &filetype == 'nerdtree' | execute "normal! \<C-W>l" | endif |
@@ -206,11 +217,12 @@ endif
 
 " themes
 " -------
-" colorscheme gruvbox
+colorscheme gruvbox
 " colorscheme afterglow
 " colorscheme onehalfdark
-colorscheme srcery
+" colorscheme srcery
 set bg=dark
+let g:gruvbox_contrast_dark = 'hard'
 
 " cursors
 " -------
@@ -253,7 +265,7 @@ autocmd BufWinEnter * if getcmdwintype() == '' && getbufvar('%', '&buftype', 'ER
 let g:NERDTreeGitStatusUseNerdFonts = 2 " you should install nerdfonts by yourself. default: 0
 let g:NERDTreeWinSize = 40
 let g:NERDTreeMinimalUI = 1
-let g:NERDTreeIgnore = ['.DS_Store', '^.git$', '^node_modules$', '^bin$', '^obj$', '^tags$', '^packages$', '^logs$', '^[.].*[.]swp$', '^dist$']
+let g:NERDTreeIgnore = ['.DS_Store', '^.git$', '^node_modules$', '^bin$', '^obj$', '^tags$', '^packages$', '^logs$', '^[.].*[.]swp$', '^dist$', '^.nuxt$', '^.public$', '^.temp$']
 
 " webdevicons
 " -----------
@@ -419,9 +431,11 @@ nnoremap > <C-w>>
 nnoremap < <C-w><
 " Alt-r Alt-r to run
 nnoremap rr :RunThis<CR>
+" Alt-r Alt-p to push
+nnoremap rp :PushThis<CR>
 " Alt-b to build
 nnoremap b :BuildThis<CR>
-" Alt-r t to test
+" Alt-r a to test
 nnoremap ra :TestThis<CR>
 " Alt-x to replace with x
 nnoremap x rx
@@ -432,6 +446,8 @@ nnoremap [l :lprevious<CR>
 
 " Fugitive
 " --------
+" Alt-g Alt-g to open fugitive
+nnoremap gg :G<CR>
 " Alt-g Alt-s to git status
 nnoremap gs :G status<CR>
 " Alt-g Alt-c to git commit -m ''
@@ -454,6 +470,8 @@ nnoremap f :NERDTreeFind<CR><C-W>l
 " ---
 " Alt-t to open fuzzy search
 nnoremap t :FZF<CR>
+" Alt-t Alt-t to open fuzzy search through fugitive
+nnoremap tt :GF<CR>
 
 " YouCompleteMe
 " -------------
@@ -524,25 +542,32 @@ augroup csharp
     autocmd FileType cs nmap .re <Plug>(omnisharp_restart_server)
 augroup END
 
+augroup html
+    autocmd!
+
+    " Tabstop
+    autocmd FileType html,css set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+augroup END
+
 augroup javascript
     autocmd!
 
     " Fold regions
-    autocmd FileType javascript,vue,json set foldlevelstart=20
+    autocmd FileType javascript,vue,json,typescript set foldlevelstart=30
 
     " Alt-. Alt-. to open code actions
-    autocmd FileType javascript,vue nnoremap .. :CocAction<CR>
+    autocmd FileType javascript,vue,typescript nnoremap .. :CocAction<CR>
     " gd to go to definition
-    autocmd FileType javascript,vue nnoremap gd :call CocActionAsync('jumpDefinition')<CR>
+    autocmd FileType javascript,vue,typescript nnoremap gd :call CocActionAsync('jumpDefinition')<CR>
     " Alt-. fi to find implementations
-    autocmd FileType javascript,vue nnoremap .fi :call CocActionAsync('jumpImplementation')<CR>
+    autocmd FileType javascript,vue,typescript nnoremap .fi :call CocActionAsync('jumpImplementation')<CR>
     " Alt-. fu to find usages
-    autocmd FileType javascript,vue nnoremap .fu :call CocActionAsync('jumpReferences')<CR>
+    autocmd FileType javascript,vue,typescript nnoremap .fu :call CocActionAsync('jumpReferences')<CR>
     " Alt-. nm to rename
-    autocmd FileType javascript,vue nnoremap .nm :call CocActionAsync('rename')<CR>
+    autocmd FileType javascript,vue,typescript nnoremap .nm :call CocActionAsync('rename')<CR>
     " Alt-Shift-o to format
-    autocmd FileType javascript,vue nnoremap O :CocCommand eslint.executeAutofix<CR>
+    autocmd FileType javascript,vue,typescript nnoremap O :CocCommand eslint.executeAutofix<CR>
     autocmd FileType json nnoremap O :%!python -m json.tool<CR>
     " Alt-. cr to restart coc
-    autocmd FileType javascript,vue nnoremap .cr :CocRestart<CR>
+    autocmd FileType javascript,vue,typescript nnoremap .cr :CocRestart<CR>
 augroup END
