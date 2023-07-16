@@ -52,12 +52,10 @@ Plug 'peitalin/vim-jsx-typescript', { 'for': [ 'tsx', 'typescript' ] }
 " Linting/error highlighting
 Plug 'dense-analysis/ale'
 " Autocompletion
-Plug 'prabirshrestha/asyncomplete.vim', { 'for': 'cs' }
-Plug 'neoclide/coc.nvim', { 'branch': 'release', 'for': ['javascript', 'vue', 'json'] }
+Plug 'neoclide/coc.nvim', { 'branch': 'release', 'for': ['javascript', 'vue', 'json', 'cs'] }
 " code snippet
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'prabirshrestha/asyncomplete-ultisnips.vim', { 'for': 'cs' }
 " closes all types of quotes and brackets automatically
 Plug 'gosukiwi/vim-smartpairs'
 " enables beautiful file icons in nerd tree
@@ -193,12 +191,6 @@ augroup vimrcEx
   autocmd FileType text setlocal textwidth=80
 augroup END
 
-" switch to us in normal mode
-" command SetUsLayout echo system('setxkbmap us')
-
-" autocmd VimEnter * SetUsLayout
-" autocmd InsertLeave,CmdlineLeave * SetUsLayout
-
 " count terminals
 " ---------------
 if !has('nvim')
@@ -209,10 +201,18 @@ endif
 
 " themes
 " -------
-colorscheme gruvbox
 set bg=dark
-let g:gruvbox_contrast_dark = 'hard'
-syntax on
+let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_sign_column='bg0'
+colorscheme gruvbox
+
+hi NonText ctermfg=bg
+hi CursorLine ctermbg=235
+hi CursorColumn ctermbg=235
+hi FoldColumn ctermbg=bg ctermfg=237
+hi Folded ctermbg=235
+set fillchars+=vert:\▏
+hi VertSplit ctermfg=235
 
 " cursors
 " -------
@@ -227,7 +227,7 @@ augroup END
 
 " air-line
 " --------
-let g:airline_theme='srcery'
+let g:airline_theme='deus'
 let g:airline#extensions#tabline#enabled = 0
 let g:airline_powerline_fonts = 1
 
@@ -316,15 +316,12 @@ let g:ale_linters_explicit = 1
 let g:ale_sign_column_always = 1
 let g:ale_fix_on_save = 1
 
-" Asyncomplete
-" ------------
-let g:asyncomplete_auto_popup = 0
-let g:asyncomplete_auto_completeopt = 0
+" Autocompletion
+" --------------
 if !has('nvim')
     set completeopt=menuone,noinsert,noselect,popup
     set completepopup=highlight:Pmenu,border:off
 endif
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " OmniSharp
 " ---------
@@ -458,12 +455,8 @@ nnoremap tt :GF<CR>
 augroup csharp
     autocmd!
 
-    autocmd FileType cs
-        \ call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-        \ 'name': 'ultisnips',
-        \ 'allowlist': ['*'],
-        \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-        \ }))
+    au BufRead,BufNewFile *.props set filetype=xml
+
     " Fold regions
     autocmd FileType cs set foldlevelstart=0
 
@@ -471,11 +464,6 @@ augroup csharp
     " Note that the type is echoed to the Vim command line, and will overwrite
     " any other messages in this space including e.g. ALE linting messages.
     autocmd CursorHold *.cs OmniSharpTypeLookup
-
-    " Ctrl-Space to open autocomplete while typing
-    autocmd FileType cs imap <c-@> <Plug>(asyncomplete_force_refresh)
-    " . to open autocomplete while typing
-    autocmd FileType cs imap . .<Plug>(asyncomplete_force_refresh)
 
     " gd to go to definition
     autocmd FileType cs nmap <silent> <buffer> gd <Plug>(omnisharp_go_to_definition)
