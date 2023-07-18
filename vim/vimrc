@@ -27,6 +27,8 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " highlights trailing whitespaces and trims them upon save
 Plug 'ntpeters/vim-better-whitespace'
+" surround plugin
+Plug 'machakann/vim-sandwich'
 " maps git commands to vim commandline such as :G status
 Plug 'tpope/vim-fugitive'
 " shows added and modified lines within a file according to git status
@@ -35,20 +37,20 @@ Plug 'airblade/vim-gitgutter'
 Plug 'djoshea/vim-autoread'
 " debugging
 Plug 'puremourning/vimspector'
-" go support
-Plug 'fatih/vim-go', { 'tag': '*', 'for': 'go' }
+" markdown support
+Plug 'godlygeek/tabular'
+Plug 'preservim/vim-markdown'
 " c# support
 Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs' }
 Plug 'OrangeT/vim-csharp', { 'for': 'cs' }
 " Mappings, code-actions available flag and statusline integration
 Plug 'nickspoons/vim-sharpenup', { 'for': 'cs' }
+" css support
+Plug 'ap/vim-css-color'
 " js support
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 " ts support
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-" react support
-Plug 'MaxMEllon/vim-jsx-pretty', { 'for': [ 'jsx', 'javascript' ] }
-Plug 'peitalin/vim-jsx-typescript', { 'for': [ 'tsx', 'typescript' ] }
 " Linting/error highlighting
 Plug 'dense-analysis/ale'
 " Autocompletion
@@ -188,7 +190,7 @@ augroup END
 
 augroup vimrcEx
   au!
-  autocmd FileType text setlocal textwidth=80
+  autocmd FileType text,markdown setlocal textwidth=80
 augroup END
 
 " count terminals
@@ -293,6 +295,15 @@ endif
 let g:better_whitespace_enabled=1
 let g:strip_whitespace_on_save=1
 let g:strip_whitespace_confirm=0
+
+" markdown
+" --------
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_new_list_item_indent = 2
+let g:vim_markdown_strikethrough = 1
+let g:vim_markdown_fenced_languages = ['csharp=cs', 'javascript=js']
+let g:vim_markdown_toc_autofit = 1
+let g:vim_markdown_folding_disabled = 1
 
 " ulti snips
 " ----------
@@ -467,6 +478,13 @@ nnoremap f :NERDTreeFind<CR><C-W>l
 nnoremap t :FZF<CR>
 " Alt-t Alt-t to open fuzzy search through fugitive
 nnoremap tt :GF<CR>
+
+augroup markdown
+    autocmd!
+
+    " Tabstop
+    autocmd FileType markdown set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+augroup END
 
 augroup csharp
     autocmd!
