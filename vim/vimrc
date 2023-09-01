@@ -28,7 +28,7 @@ Plug 'junegunn/fzf.vim'
 " highlights trailing whitespaces and trims them upon save
 Plug 'ntpeters/vim-better-whitespace'
 " surround plugin
-Plug 'machakann/vim-sandwich'
+Plug 'tpope/vim-surround'
 " maps git commands to vim commandline such as :G status
 Plug 'tpope/vim-fugitive'
 " shows added and modified lines within a file according to git status
@@ -387,6 +387,8 @@ nnoremap K i<CR><Esc>l
 " Alt-;
 imap ; <End>;
 nmap ; A;<Esc>
+" ; to open Command without shift
+noremap ; :
 " Alt-, to open ~/.vimrc
 nnoremap , :e ~/.vimrc<CR>
 " Alt-w to delete current buffer
