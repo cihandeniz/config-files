@@ -184,13 +184,15 @@ command TestThis
 " -------------
 augroup numbertoggle
   autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &filetype != 'nerdtree' && &filetype != 'tagbar' && mode() != "i" | set rnu | set nonu | endif
-  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &filetype != 'nerdtree' && &filetype != 'tagbar' | set nornu | set nu | endif
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &filetype != 'nerdtree' && &filetype != 'tagbar' && mode() != "i" | set rnu | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &filetype != 'nerdtree' && &filetype != 'tagbar' | set nornu | endif
 augroup END
 
 augroup vimrcEx
   au!
   autocmd FileType text,markdown setlocal textwidth=80
+  autocmd FileType text,markdown set colorcolumn=+1
+  autocmd FileType text,markdown hi ColorColumn ctermbg=233
 augroup END
 
 " count terminals
@@ -372,6 +374,7 @@ let g:OmniSharp_highlight_groups = {
 \ 'ExcludedCode': 'NonText'
 \}
 let g:OmniSharp_selector_findusages = 'fzf'
+let g:OmniSharp_server_use_net6 = 1
 
 " vimspector
 " ----------
