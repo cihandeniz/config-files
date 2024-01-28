@@ -62,6 +62,8 @@ Plug 'honza/vim-snippets'
 Plug 'gosukiwi/vim-smartpairs'
 " enables beautiful file icons in nerd tree
 Plug 'ryanoasis/vim-devicons'
+" ai in vim
+Plug 'madox2/vim-ai'
 
 call plug#end()
 
@@ -374,7 +376,15 @@ let g:OmniSharp_highlight_groups = {
 \ 'ExcludedCode': 'NonText'
 \}
 let g:OmniSharp_selector_findusages = 'fzf'
+let g:OmniSharp_selector_findmembers = 'fzf'
 let g:OmniSharp_server_use_net6 = 1
+let g:OmniSharp_highlighting = 3
+let g:OmniSharp_diagnostic_exclude_paths = [
+\ 'obj\\',
+\ '[Tt]emp\\',
+\ '\.nuget\\',
+\ '\<AssemblyInfo\.cs\>'
+\]
 
 " vimspector
 " ----------
