@@ -22,6 +22,8 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'vim-airline/vim-airline'
 " themes for status bar
 Plug 'vim-airline/vim-airline-themes'
+" wordmotion for camelCase jumps
+Plug 'chaoren/vim-wordmotion'
 " file search plugin
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -64,6 +66,11 @@ Plug 'gosukiwi/vim-smartpairs'
 Plug 'ryanoasis/vim-devicons'
 " ai in vim
 Plug 'madox2/vim-ai'
+" test runner
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'vim-test/vim-test'
+Plug 'rcarriga/vim-ultest', { 'do': ':UpdateRemotePlugins' }
 
 call plug#end()
 
@@ -186,8 +193,8 @@ command TestThis
 " -------------
 augroup numbertoggle
   autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &filetype != 'nerdtree' && &filetype != 'tagbar' && mode() != "i" | set rnu | endif
-  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &filetype != 'nerdtree' && &filetype != 'tagbar' | set nornu | endif
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &filetype != 'nerdtree' && &filetype != 'tagbar' && &filetype != 'UltestSummary' && mode() != "i" | set rnu | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &filetype != 'nerdtree' && &filetype != 'tagbar' && &filetype != 'UltestSummary' | set nornu | endif
 augroup END
 
 augroup vimrcEx
@@ -230,6 +237,10 @@ augroup CursorLine
   au VimEnter,WinEnter,BufWinEnter,InsertLeave * setlocal cursorline cursorcolumn
   au WinLeave,InsertEnter * setlocal nocursorline nocursorcolumn
 augroup END
+
+" wordmotion
+" ----------
+let g:wordmotion_uppercase_spaces = ['''', '"', '<', '>', '(', ')', '{', '}', '[', ']', '.', ',', ':', ';', '$']
 
 " air-line
 " --------
@@ -354,6 +365,16 @@ if !has('nvim')
     set completepopup=highlight:Pmenu,border:off
 endif
 
+" vim-test
+" --------
+let g:test#csharp#dotnettest#options = '--no-build'
+
+" Ultest
+" ------
+let g:ultest_running_sign = '►'
+let g:ultest_summary_width = 125
+let g:ultest_max_threads = 20
+
 " OmniSharp
 " ---------
 let g:OmniSharp_popup_position = 'peek'
@@ -456,6 +477,10 @@ nnoremap rr :RunThis<CR>
 nnoremap rp :PushThis<CR>
 " Alt-b to build
 nnoremap b :BuildThis<CR>
+" Alt-r Alt-t to run current test
+nnoremap rt :BuildThisSilent<CR>:UltestNearest<CR>:UltestSummaryOpen<CR>
+" Alt-r t to run current test
+nnoremap rt :BuildThisSilent<CR>:Ultest<CR>:UltestSummaryOpen<CR>
 " Alt-r a to test
 nnoremap ra :TestThis<CR>
 " Alt-x to replace with x
@@ -522,14 +547,6 @@ augroup csharp
 
     " Alt-. Alt-. to open code actions
     autocmd FileType cs nnoremap .. :OmniSharpGetCodeActions<CR>
-    " Alt-r Alt-t to run current test
-    autocmd FileType cs nnoremap rt :OmniSharpRunTest<CR>
-    " Alt-r t to run tests in file
-    autocmd FileType cs nnoremap rt :OmniSharpRunTestsInFile<CR>
-    " Alt-r Alt-T to build and run current test
-    " autocmd FileType cs nnoremap rT :BuildThisSilent<CR>:OmniSharpRunTest<CR>
-    " Alt-r T to build and run tests in file
-    " autocmd FileType cs nnoremap rT :BuildThisSilent<CR>:OmniSharpRunTestsInFile<CR>
     " Alt+. + fu to find usages
     autocmd FileType cs nmap .fu <Plug>(omnisharp_find_usages)
     " Alt+. + fi to find usages
