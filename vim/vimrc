@@ -6,6 +6,7 @@ call plug#begin('~/.vim/plugged')
 
 " theme
 Plug 'morhetz/gruvbox'
+Plug 'NLKNguyen/papercolor-theme'
 " yanks to multiple registers and allows to paste from a list
 Plug 'vim-scripts/YankRing.vim'
 " buffers as tabs
@@ -70,7 +71,7 @@ Plug 'madox2/vim-ai'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'vim-test/vim-test'
-Plug 'rcarriga/vim-ultest', { 'do': ':UpdateRemotePlugins' }
+Plug 'rcarriga/vim-ultest', { 'do': ':UpdateRemotePlugins', 'for': ['javascript'] }
 
 call plug#end()
 
@@ -90,6 +91,8 @@ set splitbelow
 set number
 set mouse=a
 set updatetime=750
+set fileformat=unix
+set wildignore+=**/obj/**/*,**/node_modules/**/*,**/bin/**/*
 
 " Folding
 set foldmethod=syntax
@@ -214,6 +217,8 @@ endif
 
 " themes
 " -------
+" set background=dark
+" colorscheme PaperColor
 set bg=dark
 let g:gruvbox_contrast_dark='hard'
 let g:gruvbox_sign_column='bg0'
@@ -232,9 +237,11 @@ hi VertSplit ctermfg=235
 let &t_SI = "\e[5 q" " blinking bar for insert mode
 let &t_SR = "\e[1 q" " blinking block for replace mode
 let &t_EI = "\e[4 q" " steady underline for normal mode
+
+setlocal cursorline cursorcolumn
 augroup CursorLine
   au!
-  au VimEnter,WinEnter,BufWinEnter,InsertLeave * setlocal cursorline cursorcolumn
+  au WinEnter,BufWinEnter,InsertLeave * setlocal cursorline cursorcolumn
   au WinLeave,InsertEnter * setlocal nocursorline nocursorcolumn
 augroup END
 
@@ -251,7 +258,7 @@ let g:airline_powerline_fonts = 1
 " nerd tree
 " ---------
 let g:NERDTreeGitStatusUseNerdFonts = 2 " you should install nerdfonts by yourself. default: 0
-let g:NERDTreeWinSize = 40
+let g:NERDTreeWinSize = 100
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeIgnore = ['.DS_Store', '^.git$', '^node_modules$', '^bin$', '^obj$', '^tags$', '^packages$', '^logs$', '^[.].*[.]swp$', '^dist$', '^.nuxt$', '^.public$', '^.temp$']
 
@@ -528,6 +535,9 @@ augroup csharp
     autocmd FileType cs nmap <silent> <buffer> gd <Plug>(omnisharp_go_to_definition)
     " Alt-Shift-o to fix and sort usings and code format
     autocmd FileType cs silent nnoremap O :OmniSharpCodeFormat<CR>:OmniSharpFixUsings<CR>
+
+    autocmd FileType cs nnoremap rt :OmniSharpRunTest<CR>
+    autocmd FileType cs nnoremap rt :OmniSharpRunTestsInFile<CR>
 
     " Alt-. Alt-. to open code actions
     autocmd FileType cs nnoremap .. :OmniSharpGetCodeActions<CR>
