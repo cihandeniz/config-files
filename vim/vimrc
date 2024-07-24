@@ -69,9 +69,9 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'madox2/vim-ai'
 " test runner
 Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
+" Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'vim-test/vim-test'
-Plug 'rcarriga/vim-ultest', { 'do': ':UpdateRemotePlugins', 'for': ['javascript'] }
+" Plug 'rcarriga/vim-ultest', { 'do': ':UpdateRemotePlugins', 'for': ['javascript'] }
 
 call plug#end()
 
@@ -361,9 +361,9 @@ let g:test#csharp#dotnettest#options = '--no-build'
 
 " Ultest
 " ------
-let g:ultest_running_sign = '►'
-let g:ultest_summary_width = 125
-let g:ultest_max_threads = 20
+" let g:ultest_running_sign = '►'
+" let g:ultest_summary_width = 125
+" let g:ultest_max_threads = 20
 
 " OmniSharp
 " ---------
@@ -469,9 +469,9 @@ nnoremap rp :PushThis<CR>
 " Alt-b to build
 nnoremap b :BuildThis<CR>
 " Alt-r Alt-t to run current test
-nnoremap rt :BuildThisSilent<CR>:UltestNearest<CR>:UltestSummaryOpen<CR>
+" nnoremap rt :BuildThisSilent<CR>:UltestNearest<CR>:UltestSummaryOpen<CR>
 " Alt-r t to run current test
-nnoremap rt :BuildThisSilent<CR>:Ultest<CR>:UltestSummaryOpen<CR>
+" nnoremap rt :BuildThisSilent<CR>:Ultest<CR>:UltestSummaryOpen<CR>
 " Alt-r a to test
 nnoremap ra :TestThis<CR>
 " Alt-x to replace with x
