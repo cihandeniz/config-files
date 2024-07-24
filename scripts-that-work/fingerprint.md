@@ -20,10 +20,8 @@ To make fingerprint work in Ubuntu, follow these steps;
 3. Enable fingerprint authentication
 
    ```bash
-   sudo pam-auth-update
+   sudo pam-auth-update --enable fprintd
    ```
-
-   Select the fingerprint authentication option.
 
 4. Reboot the system
 
