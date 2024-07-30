@@ -329,7 +329,7 @@ let g:sharpenup_codeactions_autocmd='CursorHold,CursorMoved'
 let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
 " Install coc plugins using below line
-" :CocInstall coc-css coc-eslint coc-highlight coc-html coc-json coc-tsserver coc-vetur
+" :CocInstall coc-css coc-eslint coc-highlight coc-html coc-json coc-tsserver @yaegassy/coc-volar
 
 " ALE
 " ---
@@ -586,5 +586,5 @@ augroup javascript
     autocmd FileType javascript,vue,typescript nnoremap O :CocCommand eslint.executeAutofix<CR>
     autocmd FileType json nnoremap O :%!python -m json.tool<CR>
     " Alt-. cr to restart coc
-    autocmd FileType javascript,vue,typescript nnoremap .cr :CocRestart<CR>
+    autocmd FileType javascript,vue,typescript nnoremap .re :CocRestart<CR>
 augroup END
