@@ -6,6 +6,10 @@
     - [](https://ubuntuhandbook.org/index.php/2021/08/enable-hibernate-ubuntu-21-10/)
     - [](https://www.youtube.com/watch?v=qJDJHOaM6FE)
     - [](https://www.reddit.com/r/Ubuntu/comments/zkcro6/hibernate_with_secured_boot/)
+    - also, might need to remove nvidia dependencies from hibernate and suspend
+      services
+      - [](https://gist.github.com/bmcbm/375f14eaa17f88756b4bdbbebbcfd029)
+      - [](https://bugs.launchpad.net/ubuntu/+source/systemd/+bug/1933880/comments/9)
   - configure power management
     - open extension manager and install Power Profile Switcher
     - configure to get to power saving when below 20% battery
@@ -21,6 +25,10 @@
     - install pulseaudio from sudo apt install (probably already installed)
     - install volume control from ubuntu software
   - htop
+  - install droidcam to use webcam from linux
+    - [](https://www.dev47apps.com/droidcam/linux/)
+    - read `config-files/crop-video-into-another` to create a video stream with
+      proper aspect ratio
 - personalizations
   - capslock as escape
     - [](https://askubuntu.com/questions/363346/how-to-permanently-switch-caps-lock-and-esc)
