@@ -3,13 +3,13 @@
 - linux basics
   - install sudo pro attach
   - configure hibernation
-    - [](https://ubuntuhandbook.org/index.php/2021/08/enable-hibernate-ubuntu-21-10/)
-    - [](https://www.youtube.com/watch?v=qJDJHOaM6FE)
-    - [](https://www.reddit.com/r/Ubuntu/comments/zkcro6/hibernate_with_secured_boot/)
+    - https://ubuntuhandbook.org/index.php/2021/08/enable-hibernate-ubuntu-21-10/
+    - https://www.youtube.com/watch?v=qJDJHOaM6FE
+    - https://www.reddit.com/r/Ubuntu/comments/zkcro6/hibernate_with_secured_boot/
     - also, might need to remove nvidia dependencies from hibernate and suspend
       services
-      - [](https://gist.github.com/bmcbm/375f14eaa17f88756b4bdbbebbcfd029)
-      - [](https://bugs.launchpad.net/ubuntu/+source/systemd/+bug/1933880/comments/9)
+      - https://gist.github.com/bmcbm/375f14eaa17f88756b4bdbbebbcfd029
+      - https://bugs.launchpad.net/ubuntu/+source/systemd/+bug/1933880/comments/9
   - configure power management
     - open extension manager and install Power Profile Switcher
     - configure to get to power saving when below 20% battery
@@ -26,17 +26,17 @@
     - install volume control from ubuntu software
   - htop
   - install droidcam to use webcam from linux
-    - [](https://www.dev47apps.com/droidcam/linux/)
+    - https://www.dev47apps.com/droidcam/linux/
     - read `config-files/crop-video-into-another` to create a video stream with
       proper aspect ratio
 - personalizations
   - capslock as escape
-    - [](https://askubuntu.com/questions/363346/how-to-permanently-switch-caps-lock-and-esc)
+    - https://askubuntu.com/questions/363346/how-to-permanently-switch-caps-lock-and-esc
   - compare and move `.bashrc` to home folder
   - keyboard shortcuts
     - copy all of them one by one (as well as custom shortcuts at the bottom)
   - enable touchpad gestures
-    - [](https://ubuntuhandbook.org/index.php/2021/06/multi-touch-gestures-ubuntu-20-04/)
+    - https://ubuntuhandbook.org/index.php/2021/06/multi-touch-gestures-ubuntu-20-04/
   - appearance layout
   - switch from wayland to x
   - regional settings format canada
@@ -46,8 +46,7 @@
   - skype, zoom, anydesk
   - youtube, youtube music, plex
   - pandoc, transmission (torrent)
-    - pandoc pdflatex support ->
-      [](https://gist.github.com/yspkm/f33d59181b7f6f5c8701360995c07418)
+    - pandoc pdflatex support -> https://gist.github.com/yspkm/f33d59181b7f6f5c8701360995c07418
 - development
   - terminal
     - font and background
@@ -66,16 +65,16 @@
       ~/.omnisharp/omnisharp.json`
     - install js, ts, json, html, css, eslint, volar (vue) support for coc
       - list of coc plugins are in vimrc
-      - [](https://github.com/neoclide/coc.nvim/wiki/Install-coc.nvim#install-extensions-for-programming-languages-you-use-daily)
+      - https://github.com/neoclide/coc.nvim/wiki/Install-coc.nvim#install-extensions-for-programming-languages-you-use-daily
   - repos
     - clone all repos
     - add precommit hooks to certain projects
     - build, test and run all tests
   - docker, azure cli, kubectl
     - install docker from engine cli
-      - [](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
+      - https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
     - create a docker group and add user to docker group
-      - [](https://phoenixnap.com/kb/docker-permission-denied)
+      - https://phoenixnap.com/kb/docker-permission-denied
   - dbeaver, figma, postman
     - for dbeaver try to install from snap `sudo snap install dbeaver-ce`, if
       not from apt, last stop is local deb package

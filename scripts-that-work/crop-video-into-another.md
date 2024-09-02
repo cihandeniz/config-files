@@ -29,4 +29,4 @@ Crop original video (at `/dev/video0`) into widescreen;
 ffmpeg -i /dev/video0 -vf "crop=640:360:0:60" -f v4l2 /dev/video1
 ```
 
-For more filters visit [](https://ffmpeg.org/ffmpeg-filters.html#Video-Filters).
+For more filters visit https://ffmpeg.org/ffmpeg-filters.html#Video-Filters
