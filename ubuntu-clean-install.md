@@ -1,5 +1,18 @@
 ## Ubuntu Clean Install
 
+> [!NOTE]
+>
+> To install on a mac with M chip, follow instructions in below post
+> :point_down:
+>
+> https://techblog.shippio.io/how-to-run-an-ubuntu-22-04-vm-on-m1-m2-apple-silicon-9554adf4fda1
+>
+
+> [!TIP]
+>
+> During shared folder setup, it asks to change emulated display card to
+> `virtuo-ramfb`, make it `virtuo-ramfb-gl` to enable animations in ubuntu
+
 - linux basics
   - install sudo pro attach
   - configure hibernation
