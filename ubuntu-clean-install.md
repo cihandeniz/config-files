@@ -55,9 +55,8 @@
   - regional settings format canada
 - apps
   - brave
-  - discord, slack, telegram, signal
+  - element, beeper
   - skype, zoom, anydesk
-  - youtube, youtube music, plex
   - pandoc, transmission (torrent)
     - pandoc pdflatex support -> https://gist.github.com/yspkm/f33d59181b7f6f5c8701360995c07418
 - development
