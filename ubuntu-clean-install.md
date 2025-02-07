@@ -68,7 +68,7 @@
     - `git config --global user.email [github-email]`
     - `git config --global user.name [github-username]`
     - `git config --global core.autocrlf input`
-  - dotnet v8, node v20.4.0
+  - dotnet v9, node v22.13.1
   - vim
     - install with x11: `sudo apt install vim-gtk3`
     - `ln -s ~/Repositories/cihandeniz/config-files/vim/vimrc
