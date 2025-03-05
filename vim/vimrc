@@ -92,7 +92,7 @@ set number
 set mouse=a
 set updatetime=750
 set fileformat=unix
-set wildignore+=**/obj/**/*,**/node_modules/**/*,**/bin/**/*
+set wildignore+=**/obj/**/*,**/node_modules/**/*,**/bin/**/*,**/*.js-snapshots/**,**/test-results/**,**/dist/**
 
 " Folding
 set foldmethod=syntax
@@ -260,7 +260,7 @@ let g:airline_powerline_fonts = 1
 let g:NERDTreeGitStatusUseNerdFonts = 2 " you should install nerdfonts by yourself. default: 0
 let g:NERDTreeWinSize = 100
 let g:NERDTreeMinimalUI = 1
-let g:NERDTreeIgnore = ['.DS_Store', '^.git$', '^node_modules$', '^bin$', '^obj$', '^tags$', '^packages$', '^logs$', '^[.].*[.]swp$', '^dist$', '^.nuxt$', '^.public$', '^.temp$']
+let g:NERDTreeIgnore = ['.DS_Store', '^.git$', '^node_modules$', '^bin$', '^obj$', '^tags$', '^packages$', '^logs$', '^[.].*[.]swp$', '^dist$', '^.nuxt$', '^.public$', '^.temp$', '^.*[.]js-snapshots$', '^test-results$', '^_import.*[.]vue$']
 
 " webdevicons
 " -----------
@@ -583,7 +583,7 @@ augroup javascript
     " Alt-. nm to rename
     autocmd FileType javascript,vue,typescript nnoremap .nm :call CocActionAsync('rename')<CR>
     " Alt-Shift-o to format
-    autocmd FileType javascript,vue,typescript silent nnoremap O :call system('npx eslint ' . expand('%') . ' --fix') <CR>
+    autocmd FileType javascript,vue,typescript silent nnoremap O :call system('make fix FILE=' . expand('%')) <CR>
     autocmd FileType json nnoremap O :%!python -m json.tool<CR>
     " Alt-. cr to restart coc
     autocmd FileType javascript,vue,typescript nnoremap .re :CocRestart<CR>
