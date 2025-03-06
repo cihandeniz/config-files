@@ -4,5 +4,8 @@
     },
     "FormattingOptions": {
         "enableEditorConfigSupport": true
+    },
+    "sdk": {
+       "useGlobalSdk": true
     }
 }
