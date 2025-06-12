@@ -69,6 +69,15 @@
     - `git config --global user.name [github-username]`
     - `git config --global core.autocrlf input`
   - dotnet v9, node v22.13.1
+    - install dotnet using https://launchpad.net/~dotnet/+archive/ubuntu/backports
+      ```bash
+      sudo add-apt-repository ppa:dotnet/backports
+      sudo apt update
+      ```
+    - install node using `sudo apt install nodejs`
+      - add node version manager
+        - `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash`
+      - switch to 22 via `nvm install 22`
   - vim
     - install with x11: `sudo apt install vim-gtk3`
     - `ln -s ~/Repositories/cihandeniz/config-files/vim/vimrc
