@@ -6,7 +6,7 @@ call plug#begin('~/.vim/plugged')
 
 " theme
 Plug 'morhetz/gruvbox'
-Plug 'NLKNguyen/papercolor-theme'
+" Plug 'NLKNguyen/papercolor-theme'
 " yanks to multiple registers and allows to paste from a list
 Plug 'vim-scripts/YankRing.vim'
 " buffers as tabs
@@ -57,7 +57,7 @@ Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
 " Linting/error highlighting
 Plug 'dense-analysis/ale'
 " Autocompletion
-Plug 'neoclide/coc.nvim', { 'branch': 'release', 'for': ['javascript', 'vue', 'json', 'cs'] }
+Plug 'neoclide/coc.nvim', { 'branch': 'release', 'for': ['javascript', 'vue', 'json'] }
 " code snippet
 " Plug 'SirVer/ultisnips'
 " Plug 'honza/vim-snippets'
@@ -93,6 +93,7 @@ set mouse=a
 set updatetime=750
 set fileformat=unix
 set wildignore+=**/obj/**/*,**/node_modules/**/*,**/bin/**/*,**/*.js-snapshots/**,**/test-results/**,**/dist/**
+set sessionoptions=buffers,curdir,tabpages,winsize
 
 " Folding
 set foldmethod=syntax
@@ -207,6 +208,33 @@ augroup vimrcEx
   autocmd FileType text,markdown hi ColorColumn ctermbg=233
 augroup END
 
+" session
+" -------
+let s:sessiondir = expand('~/.vim/sessions')
+if !isdirectory(s:sessiondir)
+  call mkdir(s:sessiondir, 'p')
+endif
+
+augroup fixsession
+  autocmd!
+  autocmd VimEnter * {
+        silent! filetype detect
+        syntax enable
+  }
+augroup END
+
+augroup autosession
+  autocmd!
+  " Save session file based on current working directory
+  autocmd VimLeavePre * execute 'mksession! ' .
+        \ fnameescape(s:sessiondir . '/' . substitute(getcwd(), '/', '%%', 'g') . '.vim')
+
+  " Restore session if it exists
+  autocmd VimEnter * if filereadable(s:sessiondir . '/' . substitute(getcwd(), '/', '%%', 'g') . '.vim') |
+        \ execute 'source ' . fnameescape(s:sessiondir . '/' . substitute(getcwd(), '/', '%%', 'g') . '.vim') |
+        \ endif
+augroup END
+
 " count terminals
 " ---------------
 if !has('nvim')
@@ -289,7 +317,7 @@ let g:NERDTreeExtensionHighlightColor['props'] = 'd96939'
 let g:NERDTreeExtensionHighlightColor['targets'] = 'd96939'
 let g:NERDTreeExtensionHighlightColor['xml'] = 'd96939'
 
-set encoding=UTF-8
+" set encoding=UTF-8
 " after a re-source, fix syntax matching issues (concealing brackets):
 if exists('g:loaded_webdevicons')
   call webdevicons#refresh()
@@ -339,7 +367,8 @@ let g:ale_sign_info = '·'
 let g:ale_sign_style_error = '·'
 let g:ale_sign_style_warning = '·'
 highlight ALEError ctermbg=DarkRed ctermfg=LightGray
-let g:ale_linters = { 'cs': ['OmniSharp'] }
+" let g:ale_linters = { 'cs': ['OmniSharp'] }
+let g:ale_linters = { }
 let g:ale_fixers = {
 \  'javascript': ['eslint'],
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -394,7 +423,9 @@ let g:OmniSharp_diagnostic_exclude_paths = [
 \ 'obj\\',
 \ '[Tt]emp\\',
 \ '\.nuget\\',
-\ '\<AssemblyInfo\.cs\>'
+\ '\<AssemblyInfo\.cs\>',
+\ 'bin\\',
+\ 'dist\\'
 \]
 
 " vimspector
