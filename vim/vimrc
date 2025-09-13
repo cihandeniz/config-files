@@ -41,11 +41,11 @@ Plug 'djoshea/vim-autoread'
 " debugging
 Plug 'puremourning/vimspector'
 " markdown support
-Plug 'godlygeek/tabular'
+" Plug 'godlygeek/tabular'
 Plug 'preservim/vim-markdown'
 " c# support
 Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs' }
-Plug 'OrangeT/vim-csharp', { 'for': 'cs' }
+" Plug 'OrangeT/vim-csharp', { 'for': 'cs' }
 " Mappings, code-actions available flag and statusline integration
 Plug 'nickspoons/vim-sharpenup', { 'for': 'cs' }
 " css support
@@ -59,18 +59,18 @@ Plug 'dense-analysis/ale'
 " Autocompletion
 Plug 'neoclide/coc.nvim', { 'branch': 'release', 'for': ['javascript', 'vue', 'json', 'cs'] }
 " code snippet
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
 " closes all types of quotes and brackets automatically
 Plug 'gosukiwi/vim-smartpairs'
 " enables beautiful file icons in nerd tree
 Plug 'ryanoasis/vim-devicons'
 " ai in vim
-Plug 'madox2/vim-ai'
+" Plug 'madox2/vim-ai'
 " test runner
-Plug 'roxma/nvim-yarp'
+" Plug 'roxma/nvim-yarp'
 " Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'vim-test/vim-test'
+" Plug 'vim-test/vim-test'
 " Plug 'rcarriga/vim-ultest', { 'do': ':UpdateRemotePlugins', 'for': ['javascript'] }
 
 call plug#end()
