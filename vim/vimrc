@@ -41,7 +41,7 @@ Plug 'djoshea/vim-autoread'
 " debugging
 Plug 'puremourning/vimspector'
 " markdown support
-" Plug 'godlygeek/tabular'
+Plug 'godlygeek/tabular'
 Plug 'preservim/vim-markdown'
 " c# support
 Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs' }
