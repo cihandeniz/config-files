@@ -34,6 +34,8 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'tpope/vim-surround'
 " maps git commands to vim commandline such as :G status
 Plug 'tpope/vim-fugitive'
+" a general purpose comment plugin
+Plug 'tpope/vim-commentary'
 " shows added and modified lines within a file according to git status
 Plug 'airblade/vim-gitgutter'
 " reloads files automatically when they are changed outside vim
