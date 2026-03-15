@@ -80,6 +80,7 @@ require("lazy").setup({
       vim.cmd("hi FoldColumn ctermbg=bg ctermfg=237")
       vim.cmd("hi Folded ctermbg=235")
       vim.cmd("hi VertSplit ctermfg=235")
+      vim.cmd("hi! link NvimTreeWinSeparator VertSplit")
     end,
   },
 
@@ -132,6 +133,7 @@ require("lazy").setup({
                       untracked = "★", deleted = "", ignored = "◌" },
             },
           },
+          root_folder_label = false,
         },
         filters = {
           dotfiles = true,
