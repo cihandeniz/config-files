@@ -87,7 +87,11 @@
       - list of coc plugins are in vimrc
       - https://github.com/neoclide/coc.nvim/wiki/Install-coc.nvim#install-extensions-for-programming-languages-you-use-daily
   - nvim
-    - add package repository
+    - dependencies
+      - `sudo apt install xclip`
+      - `sudo apt install ripgrep fd-find`
+      - `npm install -g neovim`
+    - package repository
       ```bash
       sudo add-apt-repository ppa:neovim-ppa/unstable
       sudo apt update
@@ -96,7 +100,7 @@
     - install via `sudo apt install neovim`
     - `ln -s ~/Repositories/cihandeniz/config-files/nvim/init.lua ~/.config/nvim/init.lua`
     - `:Lazy` and install
-    - `:MasonInstall bash-language-server csharpier css-lsp docker-compose-language-service dockerfile-language-server eslint-lsp gitui hadolint json-lsp lua-language-server markdown-toc markdownlint-cli2 marksman netcoredbg omnisharp roslyn shellcheck shfmt sqlfluff stylua typescript-language-server vtsls yaml-language-server`
+    - `:MasonInstall bash-language-server csharpier css-lsp docker-compose-language-service dockerfile-language-server eslint-lsp gitui hadolint json-lsp lua-language-server markdown-toc markdownlint-cli2 marksman netcoredbg omnisharp roslyn shellcheck shfmt sqlfluff stylua typescript-language-server vtsls vue-language-server yaml-language-server`
     - `:TSUpdate`
   - repos
     - clone all repos

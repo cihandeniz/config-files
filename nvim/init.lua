@@ -51,6 +51,13 @@ vim.opt.wildignore:append({
 })
 
 -- =============================================================================
+-- Ignore list
+-- =============================================================================
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_python3_provider = 0
+
+-- =============================================================================
 -- Theme (applied early so plugins inherit it)
 -- =============================================================================
 -- colorscheme is set after plugins load; see plugins section below
@@ -69,7 +76,7 @@ require("lazy").setup({
     priority = 1000,
     config = function()
       vim.cmd("colorscheme codedark")
-      -- Replicate your highlight tweaks
+      -- Replicate highlight tweaks
       vim.cmd("hi NonText ctermfg=bg")
       vim.cmd("hi CursorLine ctermbg=235")
       vim.cmd("hi CursorColumn ctermbg=235")
@@ -415,17 +422,17 @@ require("lazy").setup({
   },
 
   -- --------------------------------------------------------------------------
-  -- CSS color preview (stays)
+  -- CSS color preview (replaces ap/vim-css-color)
   -- --------------------------------------------------------------------------
-  { "ap/vim-css-color" },
+  { "NvChad/nvim-colorizer.lua", opts = {} },
 
   -- --------------------------------------------------------------------------
-  -- Session (replaces your autosession augroup)
+  -- Session (replaces autosession augroup)
   -- --------------------------------------------------------------------------
   {
     "folke/persistence.nvim",
     event = "BufReadPre",
-    opts = { dir = vim.fn.expand("~/.vim/sessions/") }, -- reuse your existing sessions dir
+    opts = { dir = vim.fn.expand("~/.vim/sessions/") }, -- reuse existing sessions dir
   },
 
 }, {
@@ -608,7 +615,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 -- =============================================================================
--- Commands (replaces your vimscript commands)
+-- Commands (replaces vimscript commands)
 -- =============================================================================
 
 -- DeleteCurrentBuffer
