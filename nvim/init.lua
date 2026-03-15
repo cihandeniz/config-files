@@ -134,7 +134,7 @@ require("lazy").setup({
           },
         },
         filters = {
-          dotfiles = false,
+          dotfiles = true,
           custom = {
             ".DS_Store", "^.git$", "^node_modules$", "^bin$", "^obj$",
             "^tags$", "^packages$", "^logs$", "^dist$", "^.nuxt$",
