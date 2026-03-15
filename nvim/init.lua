@@ -50,10 +50,6 @@ vim.opt.wildignore:append({
   "**/dist/**",
 })
 
-vim.opt_local.foldmethod = "expr"
-vim.opt_local.foldexpr = "v:lua.vim.lsp.foldexpr()"
-vim.opt_local.foldlevelstart = 99
-
 -- =============================================================================
 -- Theme (applied early so plugins inherit it)
 -- =============================================================================
@@ -301,22 +297,8 @@ require("lazy").setup({
 
   -- C# via Roslyn LSP (replaces omnisharp-vim + vim-sharpenup)
   {
-    "seblj/roslyn.nvim",
+    "seblyng/roslyn.nvim",
     ft = "cs",
-    config = function()
-      require("roslyn").setup({
-        config = {
-          settings = {
-            ["csharp|background_analysis"] = {
-              dotnet_analyzer_diagnostics_scope = "fullSolution",
-            },
-            ["csharp|code_lens"] = {
-              dotnet_enable_references_code_lens = true,
-            },
-          },
-        },
-      })
-    end,
   },
 
   -- --------------------------------------------------------------------------
@@ -518,6 +500,20 @@ vim.api.nvim_create_autocmd("VimEnter", {
 })
 
 -- =============================================================================
+-- Roslyn config
+-- =============================================================================
+vim.lsp.config("roslyn", {
+  settings = {
+    ["csharp|background_analysis"] = {
+      dotnet_analyzer_diagnostics_scope = "fullSolution",
+    },
+    ["csharp|code_lens"] = {
+      dotnet_enable_references_code_lens = true,
+    },
+  },
+})
+
+-- =============================================================================
 -- Filetype overrides
 -- =============================================================================
 vim.api.nvim_create_augroup("vimrcEx", { clear = true })
@@ -553,7 +549,9 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "cs" },
   callback = function()
-    vim.opt_local.foldlevelstart = 0
+    vim.opt_local.foldmethod = "expr"
+    vim.opt_local.foldexpr = "v:lua.vim.lsp.foldexpr()"
+    vim.opt_local.foldlevelstart = 99
   end,
 })
 
@@ -577,12 +575,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local map = function(k, v) vim.keymap.set("n", k, v, { buffer = args.buf, silent = true }) end
 
     map("gd",  vim.lsp.buf.definition)
-    map(".fu", vim.lsp.buf.references)
-    map(".fi", vim.lsp.buf.implementation)
-    map(".pd", vim.lsp.buf.hover)           -- preview definition / hover doc
-    map(".nm", vim.lsp.buf.rename)
-    map("..",  vim.lsp.buf.code_action)
-    map(".fs", "<cmd>Telescope lsp_document_symbols<CR>")
+    map("<A-.>fu", vim.lsp.buf.references)
+    map("<A-.>fi", vim.lsp.buf.implementation)
+    map("<A-.>pd", vim.lsp.buf.hover)           -- preview definition / hover doc
+    map("<A-.>nm", vim.lsp.buf.rename)
+    map("<A-.><A-.>",  vim.lsp.buf.code_action)
+    map("<A-.>fs", "<cmd>Telescope lsp_document_symbols<CR>")
     map("O",   function()
       vim.lsp.buf.format({ async = true })
     end)
@@ -594,11 +592,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- Diagnostics navigation (replaces ]l / [l with ALE)
     map("]l", vim.diagnostic.goto_next)
     map("[l", vim.diagnostic.goto_prev)
-
-    -- Trigger completion on dot for C#
-    if vim.bo[args.buf].filetype == "cs" then
-      vim.keymap.set("i", ".", ".<C-x><C-o>", { buffer = args.buf })
-    end
   end,
 })
 
@@ -641,6 +634,7 @@ vim.api.nvim_create_user_command("Gundo", function()
   local f = vim.fn.expand("%")
   if vim.fn.confirm('Undo local changes to "' .. f .. '"?', "&Yes\n&No", 0) == 1 then
     print(vim.fn.system("git checkout HEAD -- " .. f))
+    vim.cmd("e!")
   end
 end, {})
 
@@ -802,7 +796,7 @@ map("n", "<A-g><A-s>", ":G status<CR>")
 map("n", "<A-g><A-c>", ":Gcommit<CR>")
 map("n", "<A-g><A-p>", ":G push<CR>")
 map("n", "<A-g><A-P>", ":G pull<CR>")
-map("n", "<A-g><A-d>", ":Gdiff!<CR>")
+map("n", "<A-g><A-d>", ":Gvdiffsplit!<CR>")
 map("n", "<A-g><A-r>", ":Gundo<CR>", { silent = true })
 
 -- DAP (replaces vimspector VISUAL_STUDIO mappings)
