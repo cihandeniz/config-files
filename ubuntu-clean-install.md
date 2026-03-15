@@ -102,6 +102,11 @@
     - `:Lazy` and install
     - `:MasonInstall bash-language-server csharpier css-lsp docker-compose-language-service dockerfile-language-server eslint-lsp gitui hadolint json-lsp lua-language-server markdown-toc markdownlint-cli2 marksman netcoredbg omnisharp roslyn shellcheck shfmt sqlfluff stylua typescript-language-server vtsls vue-language-server yaml-language-server`
     - `:TSUpdate`
+    - update to allow more instances
+      ```bash
+      echo fs.inotify.max_user_instances=524288 | sudo tee -a /etc/sysctl.conf
+      sudo sysctl -p
+      ```
   - repos
     - clone all repos
     - add precommit hooks to certain projects

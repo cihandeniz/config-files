@@ -512,7 +512,8 @@ vim.api.nvim_create_autocmd("VimEnter", {
 vim.lsp.config("roslyn", {
   settings = {
     ["csharp|background_analysis"] = {
-      dotnet_analyzer_diagnostics_scope = "fullSolution",
+      dotnet_analyzer_diagnostics_scope = "openFiles",
+      dotnet_compiler_diagnostics_scope = "openFiles",
     },
     ["csharp|code_lens"] = {
       dotnet_enable_references_code_lens = true,
@@ -588,7 +589,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("<A-.>nm", vim.lsp.buf.rename)
     map("<A-.><A-.>",  vim.lsp.buf.code_action)
     map("<A-.>fs", "<cmd>Telescope lsp_document_symbols<CR>")
-    map("O",   function()
+    map("<A-e><A-e>", function()
+      vim.diagnostic.setloclist()
+    end)
+    map("<A-O>",   function()
       vim.lsp.buf.format({ async = true })
     end)
 
@@ -741,6 +745,7 @@ map("n", "<A-q><A-q>", ":qa<CR>")
 
 -- Save
 map("n", "<A-s>", ":w<CR>")
+map("n", "<A-S>", ":wa<CR>")
 
 -- Window navigation
 map("n", "<A-l>", "<C-W>l")
@@ -788,7 +793,7 @@ map("n", "<A-<>", "<C-w><")
 map("n", "<A-r><A-r>", ":RunThis<CR>")
 map("n", "<A-r><A-p>", ":PushThis<CR>")
 map("n", "<A-b>",  ":BuildThis<CR>")
-map("n", "<A-r><A-a>", ":TestThis<CR>")
+map("n", "<A-r>a", ":TestThis<CR>")
 
 -- Replace char with x
 map("n", "<A-x>", "rx")
