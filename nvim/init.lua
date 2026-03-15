@@ -30,6 +30,7 @@ vim.opt.wildmenu       = true
 vim.opt.splitright     = true
 vim.opt.splitbelow     = true
 vim.opt.number         = true
+vim.opt.termguicolors = true
 vim.opt.mouse          = "a"
 vim.opt.updatetime     = 750
 vim.opt.fileformat     = "unix"
@@ -40,7 +41,6 @@ vim.opt.foldcolumn     = "2"
 vim.opt.completeopt    = { "menuone", "noinsert", "noselect" }
 vim.opt.autoread       = true
 vim.opt.fillchars:append({ eob = " ", vert = "▏" })
-
 vim.opt.wildignore:append({
   "**/obj/**/*",
   "**/node_modules/**/*",
