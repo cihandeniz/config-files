@@ -264,15 +264,13 @@ require("lazy").setup({
   -- Treesitter (replaces vim-javascript + typescript-vim)
   -- --------------------------------------------------------------------------
   {
-    "nvim-treesitter/nvim-treesitter",
+  "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = { "c_sharp", "javascript", "typescript", "vue", "json", "html", "css", "lua" },
-        highlight        = { enable = true },
-        indent           = { enable = true },
-      })
-    end,
+    opts = {
+      ensure_installed = { "c_sharp", "javascript", "typescript", "vue", "json", "html", "css", "lua" },
+      highlight = { enable = true },
+      indent    = { enable = true },
+    },
   },
 
   -- --------------------------------------------------------------------------

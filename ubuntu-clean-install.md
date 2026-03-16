@@ -1,4 +1,4 @@
-## Ubuntu Clean Install
+# Ubuntu Clean Install
 
 > [!NOTE]
 >
@@ -91,6 +91,7 @@
       - `sudo apt install xclip`
       - `sudo apt install ripgrep fd-find`
       - `npm install -g neovim`
+      - `npm install -g tree-sitter-cli`
     - package repository
       ```bash
       sudo add-apt-repository ppa:neovim-ppa/unstable
@@ -101,6 +102,7 @@
     - `ln -s ~/Repositories/cihandeniz/config-files/nvim/init.lua ~/.config/nvim/init.lua`
     - `:Lazy` and install
     - `:MasonInstall bash-language-server csharpier css-lsp docker-compose-language-service dockerfile-language-server eslint-lsp gitui hadolint json-lsp lua-language-server markdown-toc markdownlint-cli2 marksman netcoredbg omnisharp roslyn shellcheck shfmt sqlfluff stylua typescript-language-server vtsls vue-language-server yaml-language-server`
+    - `:TSInstall all`
     - `:TSUpdate`
     - update to allow more instances
       ```bash
