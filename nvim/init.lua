@@ -662,10 +662,10 @@ vim.api.nvim_create_user_command("RunThis", function()
   if vim.bo.filetype == "NvimTree" then vim.cmd("normal! \15") end -- C-W l
   if vim.fn.expand("%") ~= "" then vim.cmd("write") end
   if vim.fn.filereadable("Makefile") == 1 then
-    vim.cmd("terminal make run")
+    vim.cmd("split | terminal make run")
     vim.cmd("startinsert")
   elseif vim.fn.filereadable("run.sh") == 1 then
-    vim.cmd("terminal sh run.sh")
+    vim.cmd("split | terminal sh run.sh")
     vim.cmd("startinsert")
   else
     print("no run.sh!")
@@ -677,10 +677,10 @@ vim.api.nvim_create_user_command("BuildThis", function()
   if vim.bo.filetype == "NvimTree" then vim.cmd("wincmd l") end
   if vim.fn.expand("%") ~= "" then vim.cmd("write") end
   if vim.fn.filereadable("build.sh") == 1 then
-    vim.cmd("terminal sh build.sh")
+    vim.cmd("split | terminal sh build.sh")
     vim.cmd("startinsert")
   elseif vim.fn.filereadable("Makefile") == 1 then
-    vim.cmd("terminal make build")
+    vim.cmd("split | terminal make build")
     vim.cmd("startinsert")
   else
     print("no Makefile or build.sh!")
@@ -692,10 +692,10 @@ vim.api.nvim_create_user_command("TestThis", function()
   if vim.bo.filetype == "NvimTree" then vim.cmd("wincmd l") end
   if vim.fn.expand("%") ~= "" then vim.cmd("write") end
   if vim.fn.filereadable("test.sh") == 1 then
-    vim.cmd("terminal sh test.sh")
+    vim.cmd("split | terminal sh test.sh")
     vim.cmd("startinsert")
   elseif vim.fn.filereadable("Makefile") == 1 then
-    vim.cmd("terminal make test")
+    vim.cmd("split | terminal make test")
     vim.cmd("startinsert")
   else
     print("no Makefile or test.sh!")
@@ -707,10 +707,10 @@ vim.api.nvim_create_user_command("PushThis", function()
   if vim.bo.filetype == "NvimTree" then vim.cmd("wincmd l") end
   if vim.fn.expand("%") ~= "" then vim.cmd("write") end
   if vim.fn.filereadable("Makefile") == 1 then
-    vim.cmd("terminal make push")
+    vim.cmd("split | terminal make push")
     vim.cmd("startinsert")
   elseif vim.fn.filereadable("push.sh") == 1 then
-    vim.cmd("terminal sh push.sh")
+    vim.cmd("split | terminal sh push.sh")
     vim.cmd("startinsert")
   else
     print("no push.sh!")
@@ -747,13 +747,13 @@ map("n", "<A-S>", ":wa<CR>")
 
 -- Window navigation
 map("n", "<A-l>", "<C-W>l")
-map("t", "<A-l>", "<C-W>l")
 map("n", "<A-h>", "<C-W>h")
-map("t", "<A-h>", "<C-W>h")
 map("n", "<A-j>", "<C-W>j")
-map("t", "<A-j>", "<C-W>j")
 map("n", "<A-k>", "<C-W>k")
-map("t", "<A-k>", "<C-W>k")
+map("t", "<A-l>", "<C-\\><C-n><C-W>l")
+map("t", "<A-h>", "<C-\\><C-n><C-W>h")
+map("t", "<A-j>", "<C-\\><C-n><C-W>j")
+map("t", "<A-k>", "<C-\\><C-n><C-W>k")
 
 -- Buffer navigation
 map("n", "<A-L>", ":bn<CR>")
