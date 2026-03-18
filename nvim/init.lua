@@ -200,18 +200,6 @@ require("lazy").setup({
   },
 
   -- --------------------------------------------------------------------------
-  -- Whitespace (replaces vim-better-whitespace)
-  -- --------------------------------------------------------------------------
-  {
-    "ntpeters/vim-better-whitespace",
-    init = function()
-      vim.g.better_whitespace_enabled = 1
-      vim.g.strip_whitespace_on_save   = 1
-      vim.g.strip_whitespace_confirm   = 0
-    end,
-  },
-
-  -- --------------------------------------------------------------------------
   -- Surround (replaces vim-surround)
   -- --------------------------------------------------------------------------
   { "kylechui/nvim-surround", opts = {} },
@@ -501,6 +489,18 @@ vim.api.nvim_create_autocmd("VimEnter", {
     if vim.fn.argc() == 0 then
       pcall(require("persistence").load)
     end
+  end,
+})
+
+-- =============================================================================
+-- Remove whitespace on save
+-- =============================================================================
+vim.api.nvim_create_autocmd("BufWritePre", {
+  callback = function()
+    local save = vim.fn.winsaveview()
+    vim.cmd([[%s/\s\+$//e]])
+    vim.cmd([[%s/\n\+\%$//e]])
+    vim.fn.winrestview(save)
   end,
 })
 
