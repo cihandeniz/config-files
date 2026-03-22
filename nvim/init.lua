@@ -410,7 +410,12 @@ require("lazy").setup({
   -- --------------------------------------------------------------------------
   -- CSS color preview (replaces ap/vim-css-color)
   -- --------------------------------------------------------------------------
-  { "NvChad/nvim-colorizer.lua", opts = {} },
+  {
+    "NvChad/nvim-colorizer.lua",
+    opts = {
+      filetypes = { "*", "!markdown" },
+    },
+  },
 
   -- --------------------------------------------------------------------------
   -- Session (replaces autosession augroup)
