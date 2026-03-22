@@ -98,6 +98,19 @@ require("lazy").setup({
         theme = "codedark",
         powerline_fonts = true,
       },
+      sections = {
+        lualine_c = { "filename" },
+        lualine_x = {
+          function()
+            local wc = vim.fn.wordcount()
+            if wc.visual_words then
+              return wc.visual_words .. " words (selected)"
+            end
+            return wc.words .. " words"
+          end,
+          "encoding", "fileformat", "filetype"
+        },
+      },
       extensions = { "nvim-tree", "fugitive" },
     },
   },
