@@ -141,7 +141,7 @@ require("lazy").setup({
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("nvim-tree").setup({
-        view = { width = 50 },
+        view = { width = 100 },
         renderer = {
           icons = {
             glyphs = {
