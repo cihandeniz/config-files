@@ -490,6 +490,12 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave"
     vim.opt_local.relativenumber = false
   end,
 })
+vim.api.nvim_create_autocmd("TermOpen", {
+  callback = function()
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
+  end,
+})
 
 -- =============================================================================
 -- Autoread (replaces vim-autoread)
