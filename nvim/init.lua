@@ -479,7 +479,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnte
   group = numgroup,
   callback = function()
     local ft = vim.bo.filetype
-    if ft ~= "NvimTree" and vim.fn.mode() ~= "i" then
+    if ft ~= "NvimTree" and vim.fn.mode() ~= "i" and vim.bo.buftype ~= "terminal" then
       vim.opt_local.relativenumber = true
     end
   end,
