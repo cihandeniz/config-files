@@ -816,6 +816,35 @@ map("n", "<A-r><A-r>", ":RunThis<CR>")
 map("n", "<A-r><A-p>", ":PushThis<CR>")
 map("n", "<A-b>",  ":BuildThis<CR>")
 map("n", "<A-r>a", ":TestThis<CR>")
+map("n", "<A-r><A-t>", function() -- run test from context
+  local buflines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local row = vim.api.nvim_win_get_cursor(0)[1]
+  local test_name = nil
+
+  -- search upward from cursor for method name
+  for i = row, 1, -1 do
+    local line = buflines[i]
+    -- match public [async] [void|Task] MethodName
+    local name = line:match("public%s+[%w%s]*%s+([%w_]+)%s*%(")
+    if name then
+      -- check if preceded by a test attribute within 5 lines
+      for j = math.max(1, i-5), i-1 do
+        if buflines[j]:match("%[Test[%w,%(%)%s\"]*%]") then
+          test_name = name
+          break
+        end
+      end
+      break
+    end
+  end
+
+  if test_name then
+    vim.cmd("split | terminal dotnet test --output Detailed --filter \"FullyQualifiedName~" .. test_name .. "\"")
+    vim.cmd("startinsert")
+  else
+    vim.notify("No test found at cursor", vim.log.levels.WARN)
+  end
+end)
 
 -- Replace char with x
 map("n", "<A-x>", "rx")
