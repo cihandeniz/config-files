@@ -123,12 +123,6 @@ require("lazy").setup({
         show_buffer_close_icons = false,
         show_close_icon = false,
         always_show_bufferline = true,
-        custom_filter = function(buf_number)
-          if vim.fn.bufname(buf_number) == "" then
-            return false
-          end
-          return true
-        end,
       },
     },
   },
@@ -268,7 +262,7 @@ require("lazy").setup({
   "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     opts = {
-      ensure_installed = { "c_sharp", "javascript", "typescript", "vue", "json", "html", "css", "lua" },
+      ensure_installed = { "c_sharp", "javascript", "typescript", "vue", "json", "html", "css", "lua", "kdl" },
       highlight = { enable = true },
       indent    = { enable = true },
     },
@@ -816,25 +810,37 @@ map("n", "<A-r><A-r>", ":RunThis<CR>")
 map("n", "<A-r><A-p>", ":PushThis<CR>")
 map("n", "<A-b>",  ":BuildThis<CR>")
 map("n", "<A-r>a", ":TestThis<CR>")
-map("n", "<A-r><A-t>", function() -- run test from context
+map("n", "<A-r><A-t>", function()
   local buflines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
   local row = vim.api.nvim_win_get_cursor(0)[1]
   local test_name = nil
 
-  -- search upward from cursor for method name
+  local function is_test_attr(line)
+    return line:match("%[Test%]")
+      or line:match("%[TestCase[%s%(]")
+      or line:match("%[TestCaseSource[%s%(]")
+      or line:match("%[Theory%]")
+      or line:match("%[Fact%]")
+      or line:match("%[InlineData[%s%(]")
+  end
+
   for i = row, 1, -1 do
     local line = buflines[i]
-    -- match public [async] [void|Task] MethodName
     local name = line:match("public%s+[%w%s]*%s+([%w_]+)%s*%(")
     if name then
-      -- check if preceded by a test attribute within 5 lines
-      for j = math.max(1, i-5), i-1 do
-        if buflines[j]:match("%[Test[%w,%(%)%s\"]*%]") then
+      -- scan upward from this method for test attributes (up to 15 lines)
+      for j = i - 1, math.max(1, i - 15), -1 do
+        local prev = buflines[j]
+        if is_test_attr(prev) then
           test_name = name
           break
         end
+        -- stop if we hit another method signature or a class/namespace boundary
+        if prev:match("public%s+") or prev:match("^%s*}%s*$") then
+          break
+        end
       end
-      break
+      break -- whether or not we found a test attr, this was the nearest method
     end
   end
 
