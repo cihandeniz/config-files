@@ -259,13 +259,21 @@ require("lazy").setup({
   -- Treesitter (replaces vim-javascript + typescript-vim)
   -- --------------------------------------------------------------------------
   {
-  "nvim-treesitter/nvim-treesitter",
+    "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    lazy = false,
     build = ":TSUpdate",
-    opts = {
-      ensure_installed = { "c_sharp", "javascript", "typescript", "vue", "json", "html", "css", "lua", "kdl" },
-      highlight = { enable = true },
-      indent    = { enable = true },
-    },
+    config = function()
+      require("nvim-treesitter").install({
+        "c_sharp", "javascript", "typescript", "vue", "json",
+        "html", "css", "lua", "kdl",
+      })
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function(args)
+          pcall(vim.treesitter.start, args.buf)
+        end,
+      })
+    end,
   },
 
   -- --------------------------------------------------------------------------
@@ -287,11 +295,13 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
     dependencies = { "williamboman/mason.nvim" },
     config = function()
-      vim.lsp.config("ts_ls",  {})
+      vim.lsp.config("vtsls", {
+        filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+      })
       vim.lsp.config("eslint", {})
       vim.lsp.config("cssls",  {})
-      vim.lsp.config("volar",  {})
-      vim.lsp.enable({ "ts_ls", "eslint", "cssls", "volar" })
+      vim.lsp.config("vue_ls", {})
+      vim.lsp.enable({ "vtsls", "eslint", "cssls", "vue_ls" })
     end,
   },
 
@@ -526,6 +536,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- Roslyn config
 -- =============================================================================
 vim.lsp.config("roslyn", {
+  cmd = {
+    vim.fn.stdpath("data") .. "/mason/bin/roslyn",
+    "--logLevel=Information",
+    "--extensionLogDirectory=" .. vim.fn.stdpath("log"),
+    "--stdio",
+  },
   settings = {
     ["csharp|background_analysis"] = {
       dotnet_analyzer_diagnostics_scope = "openFiles",
