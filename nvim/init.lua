@@ -876,7 +876,7 @@ map("n", "<A-r><A-t>", function()
   end
 
   if test_name then
-    vim.cmd("split | terminal dotnet test --output Detailed --filter \"FullyQualifiedName~" .. test_name .. "\"")
+    vim.cmd("split | terminal dotnet test --output Detailed --filter \"FullyQualifiedName~" .. test_name .. "\" /p:SkipGenerate='true'")
     vim.cmd("startinsert")
   else
     vim.notify("No test found at cursor", vim.log.levels.WARN)
