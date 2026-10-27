@@ -316,7 +316,10 @@ require("lazy").setup({
       vim.lsp.config("eslint", {})
       vim.lsp.config("cssls",  {})
       vim.lsp.config("vue_ls", {})
-      vim.lsp.enable({ "vtsls", "eslint", "cssls", "vue_ls" })
+      vim.lsp.config("crystalline", {
+        flags = { allow_incremental_sync = false },
+      })
+      vim.lsp.enable({ "vtsls", "eslint", "cssls", "vue_ls", "crystalline" })
     end,
   },
 
@@ -324,6 +327,12 @@ require("lazy").setup({
   {
     "seblyng/roslyn.nvim",
     ft = "cs",
+  },
+
+  -- Crystal
+  {
+    "vim-crystal/vim-crystal",
+    ft = "crystal"
   },
 
   -- --------------------------------------------------------------------------
@@ -610,16 +619,30 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.props", "*.targets" },
+  command = "set filetype=xml",
+})
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "javascript", "vue", "json", "typescript" },
   callback = function()
+    vim.opt_local.tabstop     = 2
+    vim.opt_local.shiftwidth  = 2
+    vim.opt_local.softtabstop = 2
     vim.opt_local.foldlevelstart = 30
   end,
 })
 
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = { "*.props", "*.targets" },
-  command = "set filetype=xml",
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "crystal" },
+  callback = function()
+    vim.opt_local.tabstop     = 2
+    vim.opt_local.shiftwidth  = 2
+    vim.opt_local.softtabstop = 2
+    vim.opt_local.expandtab   = true
+    vim.cmd("syntax sync fromstart")
+  end,
 })
 
 -- =============================================================================
