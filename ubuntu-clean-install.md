@@ -68,7 +68,7 @@
     - `git config --global user.email [github-email]`
     - `git config --global user.name [github-username]`
     - `git config --global core.autocrlf input`
-  - dotnet v9, node v22.13.1
+  - dotnet v10, node v24.16.0
     - install dotnet using https://launchpad.net/~dotnet/+archive/ubuntu/backports
       ```bash
       sudo add-apt-repository ppa:dotnet/backports
@@ -77,7 +77,24 @@
     - install node using `sudo apt install nodejs`
       - add node version manager
         - `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash`
-      - switch to 22 via `nvm install 22`
+      - switch to 24 via `nvm install 24.16.0`
+  - crystal
+    - install from 84codes repository (has arm64 packages)
+      ```bash
+      curl -s https://packagecloud.io/install/repositories/84codes/crystal/script.deb.sh | sudo bash
+      sudo apt-get install -y crystal
+      ```
+    - crystalline (language server), prebuilt binary is x86_64 only, so on arm
+      build from source
+      ```bash
+      sudo apt-get install -y llvm-dev libxml2-dev libyaml-dev libssl-dev git
+      git clone https://github.com/elbywan/crystalline ~/Repositories/elbywan/crystalline
+      cd ~/Repositories/elbywan/crystalline && shards install
+      mkdir -p bin && crystal build ./src/crystalline.cr -o ./bin/crystalline --release --no-debug --progress -Dpreview_mt
+      mkdir -p ~/.local/bin && ln -sf ~/Repositories/elbywan/crystalline/bin/crystalline ~/.local/bin/crystalline
+      ```
+      - release build takes long, single threaded codegen step `13/14 0/1`
+      - if `which crystalline` is empty, `source ~/.profile` or re-login
   - vim
     - install with x11: `sudo apt install vim-gtk3`
     - `ln -s ~/Repositories/cihandeniz/config-files/vim/vimrc ~/.vimrc`
