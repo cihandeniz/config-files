@@ -323,6 +323,9 @@ require("lazy").setup({
     end,
   },
 
+  -- Bake
+  { dir = "~/Repositories/cihandeniz/bake/editors/nvim" },
+
   -- C# via Roslyn LSP (replaces omnisharp-vim + vim-sharpenup)
   {
     "seblyng/roslyn.nvim",
